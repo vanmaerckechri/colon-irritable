@@ -1,3 +1,14 @@
+home:
+  path: /
+  controller: App\Controller\RecipeController::index
+
+recipe.index:
+  path: /recette/lister
+  controller: App\Controller\RecipeController::index
+
+recipe.create:
+  path: /recette/creer
+  controller: App\Controller\RecipeController::create
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index

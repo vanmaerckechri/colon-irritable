@@ -26,3 +26,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    
+
+    # Lier le service twig à la variable $twig pour le controller home.
+    # php bin/console debug:container pour lister les services.
+    # twig peut aussi être lié directement dans la controller. Pour afficher la liste des autres services concernés php bin/console debug:autowiring.
+    # App\Controller\HomeController:
+        # tags: ['controller.service_arguments']
+        # arguments:
+            # $twig: '@twig'
