@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheets" href="{{ asset('build/app.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
@@ -17,6 +18,7 @@
     		</ul>
     	</nav>
         {% block body %}{% endblock %}
+        <script src="{{ asset('build/app.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

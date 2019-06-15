@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Liste les Recettes' %}
+
+{% block body %}
+	<h1>Partager une Nouvelle Recette</h1>
+	{{ form_start(form) }}
+		{{ form_rest(form) }}
+		<button>Sauver</button>
+	{{ form_end(form) }}
+{% endblock %}

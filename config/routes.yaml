@@ -6,9 +6,25 @@ recipe.index:
   path: /recette/lister
   controller: App\Controller\RecipeController::index
 
+recipe.show:
+  path: /recette/{slug}-{id}
+  requirements: 
+    slug: '[a-z0-9\-]*'
+  controller: App\Controller\RecipeController::show
+
 recipe.create:
   path: /recette/creer
-  controller: App\Controller\RecipeController::create
+  controller: App\Controller\CrudRecipeController::create
+
+recipe.edit:
+  path: /recette/{id}
+  controller: App\Controller\CrudRecipeController::edit
+  methods: GET|POST
+
+recipe.delete:
+  path: /recette/{id}
+  controller: App\Controller\CrudRecipeController::delete
+  methods: DELETE
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index

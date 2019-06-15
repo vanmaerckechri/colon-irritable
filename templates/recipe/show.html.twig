@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Liste les Recettes' %}
+
+{% block body %}
+	<h1>{{ recette.titre }}</h1>
+	<p>{{ recette.image }}</p>
+	<h2>Type de Recette</h2>
+	<p>{{ recette.recetteType }}</p>
+
+	<a href="{{ path('recipe.edit', {id: recette.id, slug: recette.slug}) }}">edit</a>
+{% endblock %}
