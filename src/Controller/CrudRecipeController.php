@@ -39,7 +39,7 @@ class CrudRecipeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
         	$this->em->persist($recette);
         	$this->em->flush();
-        	$this->addFlash('success', 'Recette crée avec succès!');
+        	$this->addFlash('success', 'Recette créée avec succès!');
         	return $this->redirectToRoute('recipe.index');
         }
 
@@ -52,30 +52,47 @@ class CrudRecipeController extends AbstractController
 
 	public function edit(Recette $recette, Request $request)
 	{
-		$form = $this->createForm(RecetteType::class, $recette);
-  		$form->handleRequest($request);
+		$user = $this->getUser();
+		if ($user->getId() === $recette->getIdAuth())
+		{
+			$form = $this->createForm(RecetteType::class, $recette);
+	  		$form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-        	$this->em->flush();
-        	$this->addFlash('success', 'Recette modifiée avec succès!');
-        	return $this->redirectToRoute('recipe.index');
-        }
+	        if ($form->isSubmitted() && $form->isValid()) {
+	        	$this->em->flush();
+	        	$this->addFlash('success', 'Recette modifiée avec succès!');
+	        	return $this->redirectToRoute('recipe.index');
+	        }
 
-		return $this->render('recipe/edit.html.twig', [
-			'recette' => $recette,
-			'form' => $form->createView()
-		]);
+			return $this->render('recipe/edit.html.twig', [
+				'recette' => $recette,
+				'form' => $form->createView()
+			]);
+		}
+		else
+		{
+	        $this->addFlash('error', 'Vous n\'avez pas les droits pour effectuer cette action!');
+	        return $this->redirectToRoute('recipe.index');			
+		}
 	}
 
 	public function delete(Recette $recette, Request $request)
-	{
-		if ($this->isCsrfTokenValid('delete' . $recette->getId(), $request->get('_token')))
+	{	
+		$user = $this->getUser();
+		if ($user->getId() === $recette->getIdAuth())
 		{
-			$this->em->remove($recette);
-			$this->em->flush();
-			$this->addFlash('success', 'Recette effacée avec succès!');
+			if ($this->isCsrfTokenValid('delete' . $recette->getId(), $request->get('_token')))
+			{
+				$this->em->remove($recette);
+				$this->em->flush();
+				$this->addFlash('success', 'Recette effacée avec succès!');
+			}
 		}
-        
+		else
+		{
+	        $this->addFlash('error', 'Vous n\'avez pas les droits pour effectuer cette action!');
+		}
+
         return $this->redirectToRoute('recipe.index');
 	}
 }

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Se connecter' %}
+
+{% block body %}
+	{% if error %}
+		{{ error.messageKey | trans(error.messagedata, 'security') }}
+	{% endif %}
+	<form action="{{ path('login') }}" method="post">
+		<label for="pseudo">Pseudo</label>
+		<input type="text" id="pseudo" name="_username" value="{{ last_pseudo }}">
+		<label for="mdp">Mot de Passe</label>
+		<input type="password" id="mdp" name="_password">
+		<button type="submit">SE CONNECTER</button>
+	</form>
+{% endblock %}

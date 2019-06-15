@@ -12,9 +12,16 @@
     			<li>
     				<a class="{% if current_menu is defined and current_menu == 'recipe.index' %}active{% endif %}" href="{{ path('recipe.index') }}">Lister les Recettes</a>
     			</li>
-    			<li>
-    				<a class="{% if current_menu is defined and current_menu == 'recipe.create' %}active{% endif %}" href="{{ path('recipe.create') }}">Partager une Nouvelle Recette</a>
-    			</li>
+                {% if app.user %}
+                    <li>
+                        <a class="{% if current_menu is defined and current_menu == 'recipe.create' %}active{% endif %}" href="{{ path('recipe.create') }}">Partager une Nouvelle Recette</a>
+                        <a href="{{ path('logout') }}">logout</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('login') }}">login</a>
+                    </li>                    
+                {% endif %}
     		</ul>
     	</nav>
         {% block body %}{% endblock %}

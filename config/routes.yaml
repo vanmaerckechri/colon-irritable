@@ -13,18 +13,25 @@ recipe.show:
   controller: App\Controller\RecipeController::show
 
 recipe.create:
-  path: /recette/creer
+  path: /admin/recette/creer
   controller: App\Controller\CrudRecipeController::create
 
 recipe.edit:
-  path: /recette/{id}
+  path: /admin/recette/{id}
   controller: App\Controller\CrudRecipeController::edit
   methods: GET|POST
 
 recipe.delete:
-  path: /recette/{id}
+  path: /admin/recette/{id}
   controller: App\Controller\CrudRecipeController::delete
   methods: DELETE
+
+login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+
+logout:
+  path: /logout
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index

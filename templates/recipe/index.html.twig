@@ -6,6 +6,9 @@
 {% for message in app.flashes('success') %}
 	{{ message }}
 {% endfor%}
+{% for message in app.flashes('error') %}
+	{{ message }}
+{% endfor%}
 <h1>Lister les Recettes</h1>
 
 {% for recette in recettes %}
@@ -15,7 +18,9 @@
 	<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
 		<input type="hidden" name="_method" value="DELETE">
 		<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
-		<button>SUPPRIMER</button>
+		{% if app.user and app.user.id == recette.idAuth %}
+			<button>SUPPRIMER</button>
+		{% endif %}
 	</form>
 {% endfor %}
 
