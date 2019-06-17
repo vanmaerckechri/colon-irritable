@@ -5,6 +5,12 @@
 {% block body %}
 	<h1>Partager une Nouvelle Recette</h1>
 	{{ form_start(form) }}
+		{{ form_row(form.titre) }}
+		{{ form_row(form.type) }}
+		{{ form_row(form.nbrPers) }}
+		{{ form_row(form.tempsPrepa) }}
+		{{ form_row(form.tempsCuisson) }}
+		{{ form_row(form.image) }}
 		<h3>Ingrédients</h3>
 		<ul class="ingredients" data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}">
 		</ul>
@@ -19,17 +25,39 @@
 	<script type="text/javascript">
 		window.addEventListener("DOMContentLoaded", (event) => {
 
-			let updateDeleteBtn = function(typeName, li)
+			function updateLabels(typeName, collectionHolder)
+			{
+				let labels = collectionHolder.querySelectorAll('label');
+				for (let i = labels.length - 1; i >= 0; i--)
+				{
+					labels[i].innerText = typeName + (i + 1);
+				}
+			}
+
+			function deleteRow(collectionHolder, deleteBtn)
+			{
+				deleteBtn.parentNode.remove();
+	   			// update index
+		    	let index = parseInt(collectionHolder.getAttribute('data-index'));
+	   			collectionHolder.setAttribute('data-index', index - 1);
+			}
+
+			let addDeleteBtn = function(typeName, collectionHolder, li)
 			{
 		   		let deleteBtn = document.createElement('button');
 		   		deleteBtn.setAttribute('class', 'remove-' + typeName);
 		   		deleteBtn.innerText = "X";
 		   		li.append(deleteBtn);
 
-		   		deleteBtn.addEventListener('click', ()=> { deleteBtn.parentNode.remove(); });
+		   		// delete row event
+		   		deleteBtn.addEventListener('click', ()=> {
+					deleteRow(collectionHolder, deleteBtn);
+		   			updateLabels(typeName, collectionHolder);
+		   		});
 			}
 
-			function updateAddBtn(typeName, collectionHolder, liBtn) {
+			function addRow(typeName, collectionHolder, liBtn)
+			{
 			    // Get the data-prototype explained earlier
 			    let prototype = collectionHolder.getAttribute('data-prototype');
 
@@ -48,17 +76,12 @@
 				let parent = liBtn.parentNode;
 			    parent.insertBefore(newFormLi, liBtn);
 
-				updateDeleteBtn(typeName, newFormLi);
+				addDeleteBtn(typeName, collectionHolder, newFormLi);
 			}
 
-			let typeNames = ['etape', 'ingredient'];
-
-			for (let i = typeNames.length - 1; i >= 0; i--)
+			function addCreateBtn(typeName, collectionHolder)
 			{
-				let typeName = typeNames[i];
-				// setup an "add a tag" link
-				let typeNamePlu = typeName + 's';
-
+			   	// create add element btn
 				let liBtn = document.createElement('li');
 				let addBtn = document.createElement('button');
 				addBtn.setAttribute('class', 'add_' + typeName + '_link');
@@ -66,18 +89,38 @@
 				addBtn.innerText = '+ 1 ' + typeName;
 				liBtn.appendChild(addBtn);
 
-			    // Get the ul that holds the collection of tags
-			   	let collectionHolder = document.querySelector('ul.' + typeNamePlu);
-
-			    // add the "add a tag" anchor and li to the tags ul
+			    // add the "add element btn" to the current ul
 			    collectionHolder.appendChild(liBtn);
+
+			    updateLabels(typeName, collectionHolder);
 			    
-			    // count the current form inputs we have (e.g. 2), use that as the new
-			    // index when inserting a new item (e.g. 2)
-			    collectionHolder.setAttribute('data-index', collectionHolder.querySelectorAll('input').length);
-			    
-			    addBtn.addEventListener('click', ()=> { updateAddBtn(typeName, collectionHolder, liBtn); });
+			    // add row event
+			    addBtn.addEventListener('click', ()=> { 
+			    	addRow(typeName, collectionHolder, liBtn);
+			    	updateLabels(typeName, collectionHolder);
+			    });
 			}
+
+			function init()
+			{
+				let typeNames = ['etape', 'ingredient'];
+
+				for (let i = typeNames.length - 1; i >= 0; i--)
+				{
+					// category name
+					let typeName = typeNames[i];
+					let typeNamePlu = typeName + 's';
+
+				    // Get the ul that holds the collection of tags
+				   	let collectionHolder = document.querySelector('ul.' + typeNamePlu);
+
+				    // update data-index of the current ul with input length
+				    collectionHolder.setAttribute('data-index', collectionHolder.querySelectorAll('li').length);
+
+				   	addCreateBtn(typeName, collectionHolder)
+				}
+			}
+			init();
 		});
 	</script>
 {% endblock %}
