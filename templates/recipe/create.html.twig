@@ -17,61 +17,66 @@
 
 {% block javascripts %}
 	<script type="text/javascript">
-		jQuery(document).ready(function() {
+		window.addEventListener("DOMContentLoaded", (event) => {
+
+			let updateDeleteBtn = function(typeName, li)
+			{
+		   		let deleteBtn = document.createElement('button');
+		   		deleteBtn.setAttribute('class', 'remove-' + typeName);
+		   		deleteBtn.innerText = "X";
+		   		li.append(deleteBtn);
+
+		   		deleteBtn.addEventListener('click', ()=> { deleteBtn.parentNode.remove(); });
+			}
+
+			function updateAddBtn(typeName, collectionHolder, liBtn) {
+			    // Get the data-prototype explained earlier
+			    let prototype = collectionHolder.getAttribute('data-prototype');
+
+			    // get the new index
+			    let index = parseInt(collectionHolder.getAttribute('data-index'));
+			    // Replace '$$name$$' in the prototype's HTML to
+			    // instead be a number based on how many items we have
+			    let newForm = prototype.replace(/__name__/g, index);
+			    // increase the index with one for the next item
+			    collectionHolder.setAttribute('data-index', index + 1);
+			    
+			    // Display the form in the page in an li, before the "Add a tag" link li
+			    let newFormLi = document.createElement('li');
+				newFormLi.innerHTML = newForm;
+
+				let parent = liBtn.parentNode;
+			    parent.insertBefore(newFormLi, liBtn);
+
+				updateDeleteBtn(typeName, newFormLi);
+			}
 
 			let typeNames = ['etape', 'ingredient'];
+
 			for (let i = typeNames.length - 1; i >= 0; i--)
 			{
 				let typeName = typeNames[i];
 				// setup an "add a tag" link
 				let typeNamePlu = typeName + 's';
-				let $addTagButton = $('<button type="button" class="add_' + typeName + '_link"> + 1 ' + typeName + ' </button>');
-				let $newLinkLi = $('<li></li>').append($addTagButton);
+
+				let liBtn = document.createElement('li');
+				let addBtn = document.createElement('button');
+				addBtn.setAttribute('class', 'add_' + typeName + '_link');
+				addBtn.setAttribute('type', 'button')
+				addBtn.innerText = '+ 1 ' + typeName;
+				liBtn.appendChild(addBtn);
+
 			    // Get the ul that holds the collection of tags
-			   	let $collectionHolder = $('ul.' + typeNamePlu);
+			   	let collectionHolder = document.querySelector('ul.' + typeNamePlu);
+
 			    // add the "add a tag" anchor and li to the tags ul
-			    $collectionHolder.append($newLinkLi);
+			    collectionHolder.appendChild(liBtn);
 			    
 			    // count the current form inputs we have (e.g. 2), use that as the new
 			    // index when inserting a new item (e.g. 2)
-			    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+			    collectionHolder.setAttribute('data-index', collectionHolder.querySelectorAll('input').length);
 			    
-			    $addTagButton.on('click', function(e) {      
-			        // add a new tag form (see code block below)
-			        addTagForm($collectionHolder, $newLinkLi);
-			    });
-
-			    function addTagForm($collectionHolder, $newLinkLi) {
-				    // Get the data-prototype explained earlier
-				    let prototype = $collectionHolder.data('prototype');
-
-				    // get the new index
-				    let index = $collectionHolder.data('index');
-				    
-				    // Replace '$$name$$' in the prototype's HTML to
-				    // instead be a number based on how many items we have
-				    let newForm = prototype.replace(/__name__/g, index);
-				    
-				    // increase the index with one for the next item
-				    $collectionHolder.data('index', index + 1);
-				    
-				    // Display the form in the page in an li, before the "Add a tag" link li
-				    let $newFormLi = $('<li></li>').append(newForm);
-
-				    // also add a remove button, just for this example
-				    $newFormLi.append('<a href="#" class="remove-' + typeName + '">x</a>');
-				    
-				    $newLinkLi.before($newFormLi);
-				    
-				    // handle the removal, just for this example
-				    $('.remove-' + typeName).click(function(e) {
-				        e.preventDefault();
-				        
-				        $(this).parent().remove();
-				        
-				        return false;
-				    });
-				}
+			    addBtn.addEventListener('click', ()=> { updateAddBtn(typeName, collectionHolder, liBtn); });
 			}
 		});
 	</script>

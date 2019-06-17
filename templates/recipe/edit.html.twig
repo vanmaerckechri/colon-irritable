@@ -24,9 +24,9 @@
 
 {% block javascripts %}
 	<script type="text/javascript">
-		jQuery(document).ready(function() {
+		window.addEventListener("DOMContentLoaded", (event) => {
 
-			let initDeleteBtn = function(typeName, li)
+			let updateDeleteBtn = function(typeName, li)
 			{
 		   		let deleteBtn = document.createElement('button');
 		   		deleteBtn.setAttribute('class', 'remove-' + typeName);
@@ -34,6 +34,28 @@
 		   		li.append(deleteBtn);
 
 		   		deleteBtn.addEventListener('click', ()=> { deleteBtn.parentNode.remove(); });
+			}
+
+			function updateAddBtn(typeName, collectionHolder, liBtn) {
+			    // Get the data-prototype explained earlier
+			    let prototype = collectionHolder.getAttribute('data-prototype');
+
+			    // get the new index
+			    let index = parseInt(collectionHolder.getAttribute('data-index'));
+			    // Replace '$$name$$' in the prototype's HTML to
+			    // instead be a number based on how many items we have
+			    let newForm = prototype.replace(/__name__/g, index);
+			    // increase the index with one for the next item
+			    collectionHolder.setAttribute('data-index', index + 1);
+			    
+			    // Display the form in the page in an li, before the "Add a tag" link li
+			    let newFormLi = document.createElement('li');
+				newFormLi.innerHTML = newForm;
+
+				let parent = liBtn.parentNode;
+			    parent.insertBefore(newFormLi, liBtn);
+
+				updateDeleteBtn(typeName, newFormLi);
 			}
 
 			let typeNames = ['etape', 'ingredient'];
@@ -60,7 +82,7 @@
 			   	for (let i = collectionOld.length - 1; i >= 0; i--)
 			   	{
 			   		let li = collectionOld[i];
-			   		initDeleteBtn(typeName, li);
+			   		updateDeleteBtn(typeName, li);
 			   	}
 			    // add the "add a tag" anchor and li to the tags ul
 			    collectionHolder.appendChild(liBtn);
@@ -69,29 +91,7 @@
 			    // index when inserting a new item (e.g. 2)
 			    collectionHolder.setAttribute('data-index', collectionHolder.querySelectorAll('input').length);
 			    
-			    addBtn.addEventListener('click', ()=> { addTagForm(collectionHolder, liBtn); });
-
-			    function addTagForm(collectionHolder, liBtn) {
-				    // Get the data-prototype explained earlier
-				    let prototype = collectionHolder.getAttribute('data-prototype');
-
-				    // get the new index
-				    let index = parseInt(collectionHolder.getAttribute('data-index'));
-				    // Replace '$$name$$' in the prototype's HTML to
-				    // instead be a number based on how many items we have
-				    let newForm = prototype.replace(/__name__/g, index);
-				    // increase the index with one for the next item
-				    collectionHolder.setAttribute('data-index', index + 1);
-				    
-				    // Display the form in the page in an li, before the "Add a tag" link li
-				    let newFormLi = document.createElement('li');
-					newFormLi.innerHTML = newForm;
-
-					let parent = liBtn.parentNode;
-				    parent.insertBefore(newFormLi, liBtn);
-
-					initDeleteBtn(typeName, newFormLi);
-				}
+			    addBtn.addEventListener('click', ()=> { updateAddBtn(typeName, collectionHolder, liBtn); });
 			}
 		});
 	</script>
