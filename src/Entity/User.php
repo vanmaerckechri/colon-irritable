@@ -2,11 +2,16 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"mail", "pseudo"})
  */
 class User implements UserInterface,\Serializable
 {
@@ -19,28 +24,31 @@ class User implements UserInterface,\Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=255)
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=8, max=255)
      */
     private $mdp;
 
     /**
      * @ORM\Column(type="string", length=320)
+     * @Assert\Email
      */
     private $mail;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Recette", mappedBy="user", orphanRemoval=true)
      */
-    private $nom;
+    private $recettes;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $prenom;
+    public function __construct()
+    {
+        $this->recettes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -83,26 +91,33 @@ class User implements UserInterface,\Serializable
         return $this;
     }
 
-    public function getNom(): ?string
+    /**
+     * @return Collection|Recette[]
+     */
+    public function getRecettes(): Collection
     {
-        return $this->nom;
+        return $this->recettes;
     }
 
-    public function setNom(?string $nom): self
+    public function addRecette(Recette $recette): self
     {
-        $this->nom = $nom;
+        if (!$this->recettes->contains($recette)) {
+            $this->recettes[] = $recette;
+            $recette->setUser($this);
+        }
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function removeRecette(Recette $recette): self
     {
-        return $this->prenom;
-    }
-
-    public function setPrenom(?string $prenom): self
-    {
-        $this->prenom = $prenom;
+        if ($this->recettes->contains($recette)) {
+            $this->recettes->removeElement($recette);
+            // set the owning side to null (unless already changed)
+            if ($recette->getUser() === $this) {
+                $recette->setUser(null);
+            }
+        }
 
         return $this;
     }

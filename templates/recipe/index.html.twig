@@ -15,13 +15,13 @@
 	<h2><a href="{{ path('recipe.show', {id: recette.id, slug: recette.slug}) }}">{{ recette.titre }}</a></h2>
 	<h3>Image</h3>
 	<p>{{ recette.image }}</p>
-	<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
-		<input type="hidden" name="_method" value="DELETE">
-		<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
-		{% if app.user and app.user.id == recette.idAuth %}
+	{% if app.user and app.user == recette.user %}
+		<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
+			<input type="hidden" name="_method" value="DELETE">
+			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
 			<button>SUPPRIMER</button>
-		{% endif %}
-	</form>
+		</form>
+	{% endif %}
 {% endfor %}
-
+    {{ knp_pagination_render(recettes) }}
 {% endblock %}

@@ -5,7 +5,94 @@
 {% block body %}
 	<h1>Editer une Recette</h1>
 	{{ form_start(form) }}
-		{{ form_rest(form) }}
+		<h3>Ingrédients</h3>
+		<ul class="ingredients" data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}">
+			{% for ingredient in form.ingredients %}
+		    	<li>{{ form_row(ingredient) }}</li>
+		    {% endfor %}
+		</ul>
+		<H3>Etapes</H3>
+		<ul class="etapes" data-prototype="{{ form_widget(form.etapes.vars.prototype)|e('html_attr') }}">
+			{% for etape in form.etapes %}
+		    	<li>{{ form_row(etape) }}</li>
+		    {% endfor %}
+		</ul>
 		<button>Modifier</button>
 	{{ form_end(form) }}
+{% endblock %}
+
+
+{% block javascripts %}
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+
+			let initDeleteBtn = function(typeName, li)
+			{
+		   		let deleteBtn = document.createElement('button');
+		   		deleteBtn.setAttribute('class', 'remove-' + typeName);
+		   		deleteBtn.innerText = "X";
+		   		li.append(deleteBtn);
+
+		   		deleteBtn.addEventListener('click', ()=> { deleteBtn.parentNode.remove(); });
+			}
+
+			let typeNames = ['etape', 'ingredient'];
+
+			for (let i = typeNames.length - 1; i >= 0; i--)
+			{
+				let typeName = typeNames[i];
+				// setup an "add a tag" link
+				let typeNamePlu = typeName + 's';
+
+				let liBtn = document.createElement('li');
+				let addBtn = document.createElement('button');
+				addBtn.setAttribute('class', 'add_' + typeName + '_link');
+				addBtn.setAttribute('type', 'button')
+				addBtn.innerText = '+ 1 ' + typeName;
+				liBtn.appendChild(addBtn);
+
+			    // Get the ul that holds the collection of tags
+			   	let collectionHolder = document.querySelector('ul.' + typeNamePlu);
+
+			   	// Add a delete btn to ingredients and etapes who already exist
+			   	let collection = document.querySelector('ul.' + typeNamePlu);
+			   	let collectionOld = collection.querySelectorAll('li');
+			   	for (let i = collectionOld.length - 1; i >= 0; i--)
+			   	{
+			   		let li = collectionOld[i];
+			   		initDeleteBtn(typeName, li);
+			   	}
+			    // add the "add a tag" anchor and li to the tags ul
+			    collectionHolder.appendChild(liBtn);
+			    
+			    // count the current form inputs we have (e.g. 2), use that as the new
+			    // index when inserting a new item (e.g. 2)
+			    collectionHolder.setAttribute('data-index', collectionHolder.querySelectorAll('input').length);
+			    
+			    addBtn.addEventListener('click', ()=> { addTagForm(collectionHolder, liBtn); });
+
+			    function addTagForm(collectionHolder, liBtn) {
+				    // Get the data-prototype explained earlier
+				    let prototype = collectionHolder.getAttribute('data-prototype');
+
+				    // get the new index
+				    let index = parseInt(collectionHolder.getAttribute('data-index'));
+				    // Replace '$$name$$' in the prototype's HTML to
+				    // instead be a number based on how many items we have
+				    let newForm = prototype.replace(/__name__/g, index);
+				    // increase the index with one for the next item
+				    collectionHolder.setAttribute('data-index', index + 1);
+				    
+				    // Display the form in the page in an li, before the "Add a tag" link li
+				    let newFormLi = document.createElement('li');
+					newFormLi.innerHTML = newForm;
+
+					let parent = liBtn.parentNode;
+				    parent.insertBefore(newFormLi, liBtn);
+
+					initDeleteBtn(typeName, newFormLi);
+				}
+			}
+		});
+	</script>
 {% endblock %}

@@ -5,7 +5,74 @@
 {% block body %}
 	<h1>Partager une Nouvelle Recette</h1>
 	{{ form_start(form) }}
-		{{ form_rest(form) }}
+		<h3>Ingrédients</h3>
+		<ul class="ingredients" data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}">
+		</ul>
+		<H3>Etapes</H3>
+		<ul class="etapes" data-prototype="{{ form_widget(form.etapes.vars.prototype)|e('html_attr') }}">
+		</ul>
 		<button>Sauver</button>
 	{{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+
+			let typeNames = ['etape', 'ingredient'];
+			for (let i = typeNames.length - 1; i >= 0; i--)
+			{
+				let typeName = typeNames[i];
+				// setup an "add a tag" link
+				let typeNamePlu = typeName + 's';
+				let $addTagButton = $('<button type="button" class="add_' + typeName + '_link"> + 1 ' + typeName + ' </button>');
+				let $newLinkLi = $('<li></li>').append($addTagButton);
+			    // Get the ul that holds the collection of tags
+			   	let $collectionHolder = $('ul.' + typeNamePlu);
+			    // add the "add a tag" anchor and li to the tags ul
+			    $collectionHolder.append($newLinkLi);
+			    
+			    // count the current form inputs we have (e.g. 2), use that as the new
+			    // index when inserting a new item (e.g. 2)
+			    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+			    
+			    $addTagButton.on('click', function(e) {      
+			        // add a new tag form (see code block below)
+			        addTagForm($collectionHolder, $newLinkLi);
+			    });
+
+			    function addTagForm($collectionHolder, $newLinkLi) {
+				    // Get the data-prototype explained earlier
+				    let prototype = $collectionHolder.data('prototype');
+
+				    // get the new index
+				    let index = $collectionHolder.data('index');
+				    
+				    // Replace '$$name$$' in the prototype's HTML to
+				    // instead be a number based on how many items we have
+				    let newForm = prototype.replace(/__name__/g, index);
+				    
+				    // increase the index with one for the next item
+				    $collectionHolder.data('index', index + 1);
+				    
+				    // Display the form in the page in an li, before the "Add a tag" link li
+				    let $newFormLi = $('<li></li>').append(newForm);
+
+				    // also add a remove button, just for this example
+				    $newFormLi.append('<a href="#" class="remove-' + typeName + '">x</a>');
+				    
+				    $newLinkLi.before($newFormLi);
+				    
+				    // handle the removal, just for this example
+				    $('.remove-' + typeName).click(function(e) {
+				        e.preventDefault();
+				        
+				        $(this).parent().remove();
+				        
+				        return false;
+				    });
+				}
+			}
+		});
+	</script>
 {% endblock %}

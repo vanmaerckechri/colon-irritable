@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,27 +30,16 @@ class Recette
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="recettes")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $idAuth;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=255)
-     */
-    private $titre;
+    private $user;
 
     /**
      * @ORM\Column(type="smallint")
      * @Assert\Range(min=1)
      */
     private $nbrPers;
-
-    /**
-     * @ORM\Column(type="smallint")
-     * @Assert\Range(min=0, max=2)
-     */
-    private $type;
 
     /**
      * @ORM\Column(type="time")
@@ -58,18 +49,55 @@ class Recette
     private $tempsPrepa;
 
     /**
+     * @ORM\Column(type="time")
+     * @Assert\Time
+     * @var string A "H:i:s" formatted value
+     */
+    private $tempsCuisson;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=5, max=255)
+     */
+    private $titre;
+
+    /**
+     * @ORM\Column(type="smallint")
+     * @Assert\Range(min=0, max=2)
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $image;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
-    private $image;
+    private $modifiedAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Ingredient", mappedBy="recette", orphanRemoval=true, cascade={"persist"})
+     */
+    private $ingredients;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Etape", mappedBy="recette", orphanRemoval=true, cascade={"persist"})
+     */
+    private $etapes;
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->modifiedAt = new \DateTime();
+        $this->ingredients = new ArrayCollection();
+        $this->etapes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,14 +105,50 @@ class Recette
         return $this->id;
     }
 
-    public function getIdAuth(): ?int
+    public function getUser(): ?User
     {
-        return $this->idAuth;
+        return $this->user;
     }
 
-    public function setIdAuth(int $id_auth): self
+    public function setUser(?User $user): self
     {
-        $this->idAuth = $id_auth;
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbrPers(): ?int
+    {
+        return $this->nbrPers;
+    }
+
+    public function setNbrPers(int $nbrPers): self
+    {
+        $this->nbrPers = $nbrPers;
+
+        return $this;
+    }
+
+    public function getTempsPrepa(): ?\DateTimeInterface
+    {
+        return $this->tempsPrepa;
+    }
+
+    public function setTempsPrepa(\DateTimeInterface $tempsPrepa): self
+    {
+        $this->tempsPrepa = $tempsPrepa;
+
+        return $this;
+    }
+
+    public function getTempsCuisson(): ?\DateTimeInterface
+    {
+        return $this->tempsCuisson;
+    }
+
+    public function setTempsCuisson(\DateTimeInterface $tempsCuisson): self
+    {
+        $this->tempsCuisson = $tempsCuisson;
 
         return $this;
     }
@@ -106,18 +170,6 @@ class Recette
         return (new Slugify())->slugify($this->titre);
     }
 
-    public function getNbrPers(): ?int
-    {
-        return $this->nbrPers;
-    }
-
-    public function setNbrPers(int $nbr_pers): self
-    {
-        $this->nbrPers = $nbr_pers;
-
-        return $this;
-    }
-
     public function getType(): ?int
     {
         return $this->type;
@@ -135,14 +187,14 @@ class Recette
         return self::RECETTE_TYPE[$this->type];
     }
 
-    public function getTempsPrepa(): ?\DateTimeInterface
+    public function getImage(): ?string
     {
-        return $this->tempsPrepa;
+        return $this->image;
     }
 
-    public function setTempsPrepa(\DateTimeInterface $temps_prepa): self
+    public function setImage(string $image): self
     {
-        $this->tempsPrepa = $temps_prepa;
+        $this->image = $image;
 
         return $this;
     }
@@ -152,21 +204,83 @@ class Recette
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $created_at): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->createdAt = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getImage(): ?string
+    public function getModifiedAt(): ?\DateTimeInterface
     {
-        return $this->image;
+        return $this->modifiedAt;
     }
 
-    public function setImage(?string $image): self
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
     {
-        $this->image = $image;
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Ingredient[]
+     */
+    public function getIngredients(): Collection
+    {
+        return $this->ingredients;
+    }
+
+    public function addIngredient(Ingredient $ingredient): self
+    {
+        if (!$this->ingredients->contains($ingredient)) {
+            $this->ingredients[] = $ingredient;
+            $ingredient->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIngredient(Ingredient $ingredient): self
+    {
+        if ($this->ingredients->contains($ingredient)) {
+            $this->ingredients->removeElement($ingredient);
+            // set the owning side to null (unless already changed)
+            if ($ingredient->getRecette() === $this) {
+                $ingredient->setRecette(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Etape[]
+     */
+    public function getEtapes(): Collection
+    {
+        return $this->etapes;
+    }
+
+    public function addEtape(Etape $etape): self
+    {
+        if (!$this->etapes->contains($etape)) {
+            $this->etapes[] = $etape;
+            $etape->setRecette($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtape(Etape $etape): self
+    {
+        if ($this->etapes->contains($etape)) {
+            $this->etapes->removeElement($etape);
+            // set the owning side to null (unless already changed)
+            if ($etape->getRecette() === $this) {
+                $etape->setRecette(null);
+            }
+        }
 
         return $this;
     }

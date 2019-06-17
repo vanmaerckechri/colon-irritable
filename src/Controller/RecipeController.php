@@ -10,9 +10,11 @@ use App\Repository\RecetteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 // Permet de communiquer avec le serveur... je suppose...
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 // Twig est utilisé pour afficher les templates html.twig. Dans ce cas précis, pas besoin de l'appeler car j'utilise AbstractController.
 // use Twig\Environment;
 use App\Form\RecetteType;
+use Knp\Component\Pager\PaginatorInterface;
 
 class RecipeController extends AbstractController
 {
@@ -41,9 +43,13 @@ class RecipeController extends AbstractController
 		$this->repository = $repository;
 	}
 
-	public function index() : Response
+	public function index(PaginatorInterface $paginator, Request $request) : Response
 	{
-		$recettes = $this->repository->findAll();
+		$recettes = $paginator->paginate(
+			$this->repository->findAll(),
+			$request->query->getInt('page', 1),
+			12
+		);
 
 		return $this->render('recipe/index.html.twig', [
 			'current_menu' => 'recipe.index',

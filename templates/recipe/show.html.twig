@@ -7,8 +7,15 @@
 	<p>{{ recette.image }}</p>
 	<h2>Type de Recette</h2>
 	<p>{{ recette.recetteType }}</p>
-
-	{% if app.user and app.user.id == recette.idAuth %}
+	<h3>Ingrédients</h3>
+	{% for ingredient in recette.ingredients %}
+		<p>{{ ingredient.contenu }}</p>
+	{% endfor %}
+	<h3>Etapes</h3>
+	{% for etape in recette.etapes %}
+		<p>{{ etape.contenu }}</p>
+	{% endfor %}
+	{% if app.user and app.user == recette.user %}
 		<a href="{{ path('recipe.edit', {id: recette.id, slug: recette.slug}) }}">edit</a>
 	{% endif %}
 {% endblock %}

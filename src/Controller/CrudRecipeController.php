@@ -31,7 +31,10 @@ class CrudRecipeController extends AbstractController
 
 	public function create(Request $request)
 	{
+		$user = $this->getUser();
+
 		$recette = new Recette;
+		$recette->setUser($user);
 
 		$form = $this->createForm(RecetteType::class, $recette);
   		$form->handleRequest($request);
@@ -53,7 +56,7 @@ class CrudRecipeController extends AbstractController
 	public function edit(Recette $recette, Request $request)
 	{
 		$user = $this->getUser();
-		if ($user->getId() === $recette->getIdAuth())
+		if ($user === $recette->getUser())
 		{
 			$form = $this->createForm(RecetteType::class, $recette);
 	  		$form->handleRequest($request);
@@ -79,7 +82,7 @@ class CrudRecipeController extends AbstractController
 	public function delete(Recette $recette, Request $request)
 	{	
 		$user = $this->getUser();
-		if ($user->getId() === $recette->getIdAuth())
+		if ($user === $recette->getUser())
 		{
 			if ($this->isCsrfTokenValid('delete' . $recette->getId(), $request->get('_token')))
 			{

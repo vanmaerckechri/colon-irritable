@@ -3,12 +3,11 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\IngredientRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\EtapeRepository")
  */
-class Ingredient
+class Etape
 {
     /**
      * @ORM\Id()
@@ -18,14 +17,13 @@ class Ingredient
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Recette", inversedBy="ingredients")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Recette", inversedBy="etapes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $recette;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=255)
+     * @ORM\Column(type="text")
      */
     private $contenu;
 
