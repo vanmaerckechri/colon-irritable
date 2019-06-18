@@ -104,7 +104,7 @@ class Recette
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
-        $this->setUpdatedAt(new \DateTime('now'));    
+        $this->updatedAt = new \DateTime('now');    
         $this->ingredients = new ArrayCollection();
         $this->etapes = new ArrayCollection();
     }
