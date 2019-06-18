@@ -13,8 +13,11 @@
 
 {% for recette in recettes %}
 	<h2><a href="{{ path('recipe.show', {id: recette.id, slug: recette.slug}) }}">{{ recette.titre }}</a></h2>
-	<h3>Image</h3>
-	<p>{{ recette.image }}</p>
+	{% if recette.image %}
+		<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
+	{% else %}
+		<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+	{% endif %}
 	{% if app.user and app.user == recette.user %}
 		<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
 			<input type="hidden" name="_method" value="DELETE">

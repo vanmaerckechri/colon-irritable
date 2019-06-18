@@ -8,10 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RecetteRepository")
  * @UniqueEntity("titre")
+ * @Vich\Uploadable
  */
 class Recette
 {
@@ -68,9 +71,15 @@ class Recette
     private $type;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
+
+    /**
+     * @Vich\UploadableField(mapping="recette_image", fileNameProperty="image")
+     * @Assert\Image(mimeTypes="image/jpeg")
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="datetime")
@@ -78,9 +87,9 @@ class Recette
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $modifiedAt;
+    private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ingredient", mappedBy="recette", orphanRemoval=true, cascade={"persist"})
@@ -94,8 +103,8 @@ class Recette
 
     public function __construct()
     {
-        $this->createdAt = new \DateTime();
-        $this->modifiedAt = new \DateTime();
+        $this->createdAt = new \DateTime('now');
+        $this->setUpdatedAt(new \DateTime('now'));    
         $this->ingredients = new ArrayCollection();
         $this->etapes = new ArrayCollection();
     }
@@ -192,11 +201,26 @@ class Recette
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): void
     {
         $this->image = $image;
+    }
 
-        return $this;
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+     */
+    public function setImageFile(?File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+        if (null !== $imageFile) {
+            $this->updatedAt = new \DateTime();
+        }
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -211,14 +235,14 @@ class Recette
         return $this;
     }
 
-    public function getModifiedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->modifiedAt;
+        return $this->updatedAt;
     }
 
-    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
-        $this->modifiedAt = $modifiedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

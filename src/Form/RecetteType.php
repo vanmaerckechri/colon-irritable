@@ -11,6 +11,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class RecetteType extends AbstractType
 {
@@ -31,7 +33,9 @@ class RecetteType extends AbstractType
             ->add('tempsCuisson', TimeType::class, [
                 'label' => 'Temps de Cuisson'
             ])
-            ->add('image')
+            ->add('imageFile', FileType::class, [
+                'required' => false
+            ])
             ->add('ingredients', CollectionType::class, [
                 'entry_type' => IngredientType::class,
                 'entry_options' => ['label' => false],
@@ -46,9 +50,6 @@ class RecetteType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false
             ])
-            /*
-            ->add('image', FileType::class, [
-            ])*/
         ;
     }
 

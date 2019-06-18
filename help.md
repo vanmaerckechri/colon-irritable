@@ -90,6 +90,75 @@ public function classeconcernée(): Response
 // Pour d'autres manières de faire, regarder dans "Ajouter des Données".
 `
 
+### Les Modifications en Cascades dans les Tables Relationnelle
+`
+// Dans l'entity =>
+/**
+ * @ORM\OneToMany(targetEntity="App\Entity\Etape", mappedBy="recette", orphanRemoval=true, cascade={"persist"})
+ */
+private nomdelentityaupluriel
+`
+
+### Installer et Configuer le Systeme d'Upload de Fichiers
+`
+// Installer le bundle.
+composer require vich/uploader-bundle
+// config/packages/vich_uploader.yaml
+vich_uploader:
+    db_driver: orm
+    mappings:
+      recette_image:
+        uri_prefix: /images/recettes
+        upload_destination: '%kernel.project_dir%/public/images/recettes'
+        namer: Vich\UploaderBundle\Naming\UniqidNamer
+// config/bundles.php
+Vich\UploaderBundle\VichUploaderBundle::class => ['all' => true],
+use Vich\Uploader\Doctrine\Mapping\Annotation as Vich;
+// Dans le fichier de l'entity concernée
+// dans l'annotation de la classe
+/**
+ * @Vich\Uploadable
+ */
+// ajouter les propriétés à la classe
+/**
+ * @ORM\Column(type="string", length=255)
+ */
+private $image;
+/**
+ * @var File|null
+ * @Vich\UploadableField(mapping="recette_image", fileNameRecette="image")
+ */
+private $imageFile
+/**
+ *
+ * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $imageFile
+ */
+public function setImageFile(?File $imageFile): void
+{
+    $this->imageFile = $imageFile;
+    if (null !== $imageFile) {
+        $this->updatedAt = new \DateTime();
+    }
+}
+// dans le fichier template
+{% if recette.image %}
+	<img src="{{ vich_uploader_asset(recette, 'imageFile') }}" alt="photo du plat">
+{% endif %}
+`
+
+### Les Thumbs Auto dans le Cache
+`
+// installer
+composer require liip/imagine-bundle
+// voir les fichiers services.yaml, ImageCacheSubscriber.php et liip_imagine.yaml dans config
+`
+
+### Divers Bundles
+`
+// Pour generer des valeurs dans les fixtures
+fzaninotto/faker
+`
+
 ### Filtres
 
 `

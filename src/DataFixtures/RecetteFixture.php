@@ -41,9 +41,10 @@ class RecetteFixture extends Fixture
     			->setNbrPers($faker->numberBetween(1, 8))
     			->setTempsPrepa(new \DateTime($faker->time($format = 'H:i', $max = 'now')))
                 ->setTempsCuisson(new \DateTime($faker->time($format = 'H:i', $max = 'now')))
-    			->setCreatedAt($faker->dateTimeBetween('-100 days', '-1 days'))
-                ->setModifiedAt($faker->dateTimeBetween('-100 days', '-1 days'))
-                ->setImage($faker->url())
+    			//->setCreatedAt($faker->dateTimeBetween('-100 days', '-1 days'))
+                //->setUpdatedAt($faker->dateTimeBetween('-100 days', '-1 days'))
+                ->setCreatedAt(new \DateTime())
+                ->setUpdatedAt(new \DateTime())
                 ->setUser($user);
     		;
     		$manager->persist($recette);
