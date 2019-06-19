@@ -3,9 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheets" href="{{ asset('build/app.css') }}">
-        <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}{{ encore_entry_link_tags('app') }}{% endblock %}
     </head>
     <body>
     	<nav>
@@ -26,7 +24,6 @@
     		</ul>
     	</nav>
         {% block body %}{% endblock %}
-        <script src="{{ asset('build/app.js') }}"></script>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
     </body>
 </html>
