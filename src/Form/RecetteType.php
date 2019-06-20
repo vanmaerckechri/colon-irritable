@@ -19,22 +19,27 @@ class RecetteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('titre')
+            ->add('titre', null, [
+                'label' => 'Titre',
+            ])
+
             ->add('nbrPers', null, [
-                'label' => 'Nombre de Personnes'
+                'label' => 'Nombre de Personnes',
             ])
             ->add('type', ChoiceType::class, [
                 'label' => 'Type de Plat',
-                'choices' => $this->getChoices(Recette::RECETTE_TYPE)
+                'choices' => $this->getChoices(Recette::RECETTE_TYPE),
             ])
             ->add('tempsPrepa', TimeType::class, [
-                'label' => 'Temps de Préparation'
+                'label' => 'Temps de Préparation',
+                'input_format' => 'H\h:m',
             ])
             ->add('tempsCuisson', TimeType::class, [
-                'label' => 'Temps de Cuisson'
+                'label' => 'Temps de Cuisson',
             ])
             ->add('imageFile', FileType::class, [
-                'required' => false
+                'label' => false,
+                'required' => false,
             ])
             ->add('ingredients', CollectionType::class, [
                 'entry_type' => IngredientType::class,
@@ -48,7 +53,7 @@ class RecetteType extends AbstractType
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false,
             ])
         ;
     }

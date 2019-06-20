@@ -1,15 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Partager une Nouvelle Recette' %}
+{% block title 'Liste les Recettes' %}
 
 {% block body %}
 	<div id="main" class="recettePage">
 		<div class="editPage maxWidthMain">
-			<h2>Partager une Nouvelle Recette</h2>
-			{{ form_start(form) }}
+			<h2>Editer la Recette</h2>
 			<div class="row">
 				<div class="col-1">
-					<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+					{% if recette.image %}
+						<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
+					{% else %}
+						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+					{% endif %}
+					{{ form_start(form) }}
 					{{ form_widget(form.imageFile) }}
 				</div>
 				<div class="col-2">
@@ -57,18 +61,32 @@
 				<div class="col-4">
 					<h3>Ingrédients</h3>
 					<ul class="ingredients" data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}">
-						{{ form_widget(form.ingredients) }}
+						{% for ingredient in form.ingredients %}
+					    	<li>
+						    	{{ form_label(ingredient) }}
+							    {{ form_widget(ingredient) }}
+							    {{ form_help(ingredient) }}
+							    {{ form_errors(ingredient) }}
+						    </li>
+					    {% endfor %}
 					</ul>
 				</div>
 				<div class="col-5">
 					<h3>Etapes</h3>
 					<ul class="etapes" data-prototype="{{ form_widget(form.etapes.vars.prototype)|e('html_attr') }}">
-						{{ form_widget(form.etapes) }}
+						{% for etape in form.etapes %}
+							<li>
+						    	{{ form_label(etape) }}
+							    {{ form_widget(etape) }}
+							    {{ form_help(etape) }}
+							    {{ form_errors(etape) }}
+						    </li>
+					    {% endfor %}
 					</ul>
 				</div>
-				<button class="validateBtn">Sauver</button>
-			</div>
+				<button class="updateBtn">Modifier</button>
 			{{ form_end(form) }}
+			</div>
 		</div>
 	</div>
 {% endblock %}

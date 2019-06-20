@@ -100,6 +100,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 			newFormLi.innerHTML = newForm;
 
 			let parent = liBtn.parentNode;
+			console.log(parent)
 		    parent.insertBefore(newFormLi, liBtn);
 
 			this.addDeleteBtn(fieldIndex, collectionHolder, newFormLi);

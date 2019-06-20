@@ -1,0 +1,20 @@
+nav
+{
+	width: 100%;
+	ul
+	{
+		text-align: right;
+	}
+	li
+	{
+		display: inline-block;
+		&:last-child
+		{
+			margin-left: $space-2;
+		}
+	}
+	.btn:hover
+	{
+		border-top-color: transparent;
+	}
+}

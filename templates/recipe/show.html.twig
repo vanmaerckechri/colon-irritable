@@ -3,19 +3,70 @@
 {% block title 'Liste les Recettes' %}
 
 {% block body %}
-	<h1>{{ recette.titre }}</h1>
-	<p>{{ recette.image }}</p>
-	<h2>Type de Recette</h2>
-	<p>{{ recette.recetteType }}</p>
-	<h3>Ingrédients</h3>
-	{% for ingredient in recette.ingredients %}
-		<p>{{ ingredient.contenu }}</p>
-	{% endfor %}
-	<h3>Etapes</h3>
-	{% for etape in recette.etapes %}
-		<p>{{ etape.contenu }}</p>
-	{% endfor %}
-	{% if app.user and app.user == recette.user %}
-		<a href="{{ path('recipe.edit', {id: recette.id, slug: recette.slug}) }}">edit</a>
-	{% endif %}
+	<div id="main" class="recettePage">
+		<div class="showPage maxWidthMain">
+			<div class="row">
+				<div class="title">
+					<h2>{{ recette.titre }}</h2>
+				</div>
+				<div class="tools">
+					<a href="#">
+						<img src="{{ '/images/icons/favoris.png' }}" alt="ajouter aux favoris">
+					</a>
+					<a href="#">
+						<img src="{{ '/images/icons/print.png' }}" alt="imprimer">
+					</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-1">
+					{% if recette.image %}
+						<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
+					{% else %}
+						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+					{% endif %}
+				</div>
+				<div class="col-2">
+					<div>
+						<h3>Type de Plat:</h3>
+						<p>{{ recette.recetteType }}</p>
+					</div>
+					<div>
+						<h3>Nombre de Personnes:</h3>
+						<p>{{ recette.nbrPers }} personne(s)</p>
+					</div>
+					<div>
+						<h3>Préparation:</h3>
+						<p>{{ recette.tempsPrepa|date('H:i')}} minutes</p>
+					</div>
+					<div>
+						<h3>Cuisson:</h3>
+						<p>{{ recette.tempsCuisson|date('H:i') }} minutes</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<div class="ingredientsContainer">
+						<h3>Ingrédients</h3>
+						{% for ingredient in recette.ingredients %}
+							<p>{{ ingredient.contenu }}</p>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="col-5">
+					<div class="etapesContainer">
+						<h3>Préparation</h3>
+						{% for etape in recette.etapes %}
+							<h4>Etape {{ loop.index }}</h4>
+							<p>{{ etape.contenu }}</p>
+						{% endfor %}
+					</div>
+				</div>
+				{% if app.user and app.user == recette.user %}
+					<a  class="btn validateBtn" href="{{ path('recipe.edit', {id: recette.id, slug: recette.slug}) }}">EDITER</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

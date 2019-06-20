@@ -1,0 +1,50 @@
+header
+{
+	border-bottom: 1px solid $darkGrey;
+	padding: $space-2 0;
+	width: 100%;
+}
+.headerContent
+{
+	display: flex;
+	justify-content: space-between;
+}
+.bannerContainer
+{
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	img
+	{
+		width: 52px;
+		height: 52px;
+	}
+}
+.profilContainer
+{
+	display: inline-flex;
+	justify-content: flex-start;
+	align-items: center;
+	.profil
+	{
+		display: inline-flex;
+		justify-content: flex-start;
+		align-items: center;
+		img
+		{
+			width: 36px;
+			height: 36px;
+		}
+		p
+		{
+			margin: 0 $space-2;
+			display: inline-block;
+		}
+	}
+}
+h1
+{
+	margin-left: 20px;
+	display: inline-block;
+	font-size: $fontSize-h1;
+}

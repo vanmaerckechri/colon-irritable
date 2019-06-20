@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title 'Liste les Recettes' %}
+{% block title 'Liste des Recettes' %}
 
 {% block body %}
 {% for message in app.flashes('success') %}
@@ -9,22 +9,29 @@
 {% for message in app.flashes('error') %}
 	{{ message }}
 {% endfor%}
-<h1>Lister les Recettes</h1>
-
-{% for recette in recettes %}
-	<h2><a href="{{ path('recipe.show', {id: recette.id, slug: recette.slug}) }}">{{ recette.titre }}</a></h2>
-	{% if recette.image %}
-		<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
-	{% else %}
-		<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
-	{% endif %}
-	{% if app.user and app.user == recette.user %}
-		<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
-			<input type="hidden" name="_method" value="DELETE">
-			<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
-			<button>SUPPRIMER</button>
-		</form>
-	{% endif %}
-{% endfor %}
-    {{ knp_pagination_render(recettes) }}
+<div id="main">
+	<div class="mainContent maxWidthMain">
+		<h2>Les Recettes</h2>
+		<div class="recettesListContainer">
+			{% for recette in recettes %}
+				<a class="recetteLink" href="{{ path('recipe.show', {id: recette.id, slug: recette.slug}) }}">
+					<h3>{{ recette.titre }}</h2>
+					{% if recette.image %}
+						<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
+					{% else %}
+						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+					{% endif %}
+					{% if app.user and app.user == recette.user %}
+						<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
+							<button>SUPPRIMER</button>
+						</form>
+					{% endif %}
+				</a>
+			{% endfor %}
+		</div>
+		{{ knp_pagination_render(recettes) }}
+	</div>
+</div>
 {% endblock %}
