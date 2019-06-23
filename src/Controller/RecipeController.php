@@ -54,6 +54,23 @@ class RecipeController extends AbstractController
 		$this->commentRepository = $commentRepository;
 	}
 
+	public function calculRecetteAverageScore(Recette $recette)
+	{
+		$users = $this->commentRepository->getRecetteScoreAverage($recette);
+
+		$output = 0;
+		$usersLength = count($users);
+		if ($usersLength > 0)
+		{
+			foreach ($users as $user) 
+			{
+				$output += $user['score'];
+			}
+			$output = $output / $usersLength;
+		}
+		return $output;
+	}
+
 	public function index(PaginatorInterface $paginator, Request $request) : Response
 	{
 		$recettes = $paginator->paginate(
@@ -68,12 +85,10 @@ class RecipeController extends AbstractController
 		]);
 	}
 
-	public function show(ObjectManager $em, Recette $recette, CommentRepository $commentRepository, string $slug, Request $request) : Response
+	public function show(ObjectManager $em, Recette $recette, string $slug, Request $request) : Response
 	{
-		// Pratique un find id automatique sur $recette car l'id est est présent dans le path. Une autre méthode est de passer l'id dans l'argument de la classe et ensuite effectuer un find.
-
-		// Vérifier que le slug est correct, si ça n'est pas le cas, redirection permanente (301).
 		$goodSlug = $recette->getSlug();
+
 		if ($goodSlug !== $slug)
 		{
 			return $this->redirectToRoute('recipe.show', [
@@ -83,9 +98,6 @@ class RecipeController extends AbstractController
 		}
 
 		$comment = new Comment;
-
-
-		//$form = $this->createForm(CommentType::class, $comment);
 
 		$form = $this->createForm(CommentType::class, $comment, [
 				'action' => $this->generateUrl('comment.create', [
@@ -101,26 +113,13 @@ class RecipeController extends AbstractController
 			$userAlreadyComment = true;
 		}
 
-/*
-		$form = $this->createForm(CommentType::class, $comment, [
-			'action' => $this->generateUrl('comment.create')
-		]);
-
-  		$form->handleRequest($request);
-
-
-		if ($form->isSubmitted() && $form->isValid() && !$commentRepository->checkAlreadyComment($user, $recette)) {
-        	$em->persist($comment);
-        	$em->flush();
-        	$this->addFlash('success', 'Commentaire enregistré avec succès!');
-        	return $this->redirectToRoute('recipe.index');
-        }
-*/
+		$recetteAverageScore = $this->calculRecetteAverageScore($recette);
 
        	return $this->render('recipe/show.html.twig', [
 			'current_menu' => 'recipe.show',
 			'recette' => $recette,
 			'userAlreadyComment' => $userAlreadyComment,
+			'recetteAverageScore' => $recetteAverageScore,
 			'form' => $form->createView()
 		]);
 	}

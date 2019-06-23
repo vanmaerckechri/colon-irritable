@@ -4,7 +4,7 @@
 }
 .recettePage
 {
-	.showPage, .editPage, .createPage
+	.showPage
 	{
 		.commentaires
 		{
@@ -20,10 +20,6 @@
 			.commentsForm
 			{
 				margin-bottom: $space-3;
-			}
-			h3
-			{
-				margin-bottom: $space-1;
 			}
 			textarea
 			{
@@ -41,25 +37,19 @@
 				{
 					margin-bottom: $space-4;
 				}
-			}
-			.auteur
-			{
-				font-weight: bold;
-			}
-			.rating 
-			{
-				font-size: 50px;
-				label
+				.auteur
 				{
 					display: inline-block;
-					&:hover
-					{
-						color: orange;
-					}
 				}
-				input
+				.scoreContainer
 				{
-					opacity: 0;
+					margin-left: $space-2;
+					display: inline-flex;
+					color: $color-dark;
+				}
+				.auteur
+				{
+					font-weight: bold;
 				}
 			}
 
@@ -141,11 +131,12 @@
 					content:'Veuillez choisir une note!';
 					position: absolute;
 					left: 0;
-					top:50%;
-					width: 175px;
+					top: 50%;
+					width: 210px;
 					transform: translate(-100%, -50%);
 					color: red;
 					font-weight: bold;
+					font-family: $fontFamily-text;
 				}
 			}
 		}

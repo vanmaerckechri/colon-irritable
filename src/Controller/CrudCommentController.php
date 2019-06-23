@@ -58,7 +58,6 @@ class CrudCommentController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid() && !$this->repository->checkAlreadyComment($user, $recette)) {
         	$this->em->persist($comment);
         	$this->em->flush();
-        	$this->addFlash('success', 'Commentaire enregistré avec succès!');
         	return $this->redirectToRoute('recipe.show', [
 				'current_menu' => 'recipe.show',
 				'id' => $recette->getId(),

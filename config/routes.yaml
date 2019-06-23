@@ -9,7 +9,7 @@ recipe.index:
 recipe.show:
   path: /recette/{slug}-{id}
   requirements: 
-    slug: '[a-z0-9\--]*'
+    slug: '[a-z0-9\-]*'
   controller: App\Controller\RecipeController::show
   methods: GET
 

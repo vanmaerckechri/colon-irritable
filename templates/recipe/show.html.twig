@@ -44,6 +44,37 @@
 						<p>{{ recette.tempsCuisson|date('H:i') }} minutes</p>
 					</div>
 				</div>
+				<div class="col-3">
+					{% if userAlreadyComment == false %}
+						{% if recette.comments is not empty %}
+							{% if recette.comments|length > 1 %}
+								<a href="#newCommentContainer">{{ recette.comments|length }} Commentaires/Notes</a>
+							{% else %}
+								<a href="#newCommentContainer">1 Commentaire/Note</a>
+							{% endif %}
+						{% else %}
+							<a href="#newCommentContainer">0 Commentaire/Note</a>
+						{% endif %}
+					{% else %}
+							{% if recette.comments|length > 1 %}
+								<a href="#communaute">{{ recette.comments|length }} Commentaires/Notes</a>
+							{% else %}
+								<a href="#communaute">1 Commentaire/Note</a>
+							{% endif %}
+					{% endif %}
+					<div class="recetteAverageScoreContainer">
+						<h3>Moyenne:</h3>
+						<div class="recetteAverageScore">
+							{% for i in 1..5 %}
+								{% if i <= recetteAverageScore %}
+									<p class="star">★</p>
+								{% else %}
+									<p class="star">☆</p>
+								{% endif %}
+							{% endfor %}
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-4">
@@ -69,31 +100,31 @@
 			</div>
 			<div class="commentaires">
 				{% if userAlreadyComment == false %}
-					<div class="newCommentContainer">
+					<div id="newCommentContainer" class="newCommentContainer">
 						<h3>Donnez votre Avis ?</h3>
 						<ul id="scoreContainer" class="scoreContainer">
 							<input type="radio" id="star5" name="rating" value="5" />
-							<label for="star5" title="Amazing">
+							<label for="star5" title="Incroyable">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
 							<input type="radio" id="star4" name="rating" value="4" />
-							<label for="star4" title="Good">
+							<label for="star4" title="Très bien">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
 							<input type="radio" id="star3" name="rating" value="3" />
-							<label for="star3" title="Average">
+							<label for="star3" title="Pas mal">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
 							<input type="radio" id="star2" name="rating" value="2" />
-							<label for="star2" title="Not Good">
+							<label for="star2" title="Pas terrible">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
 							<input type="radio" id="star1" name="rating" value="1" />
-							<label for="star1" title="Bad">
+							<label for="star1" title="Dramatique">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
@@ -107,10 +138,21 @@
 				{% if recette.comments is not empty %}
 					<h3>Les Avis de la Communauté</h3>
 				{% endif %}
-				<ul class="communaute">
+				<ul id="communaute" class="communaute">
 					{% for comment in recette.comments %}
 						<li>
-							<p class="auteur">{{ comment.author }}</p>
+							<div class="titre">
+								<p class="auteur">{{ comment.author }}</p>
+								<div class="scoreContainer">
+									{% for i in 5..1 %}
+										{% if i <= comment.score %}
+											<p class="star">★</p>
+										{% else %}
+											<p class="star">☆</p>
+										{% endif %}
+									{% endfor %}
+								</div>
+							</div>
 							<p class="contenu">{{ comment.contenu }}</p>
 						</li>
 					{% endfor %}

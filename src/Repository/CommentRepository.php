@@ -31,6 +31,17 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getRecetteScoreAverage($recette)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.recette = :recette')
+            ->setParameter('recette', $recette)
+            ->select('c.score')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */
