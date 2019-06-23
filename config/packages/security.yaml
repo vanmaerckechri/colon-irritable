@@ -16,6 +16,12 @@ security:
                 target: /
             form_login:
                 check_path: login
+                csrf_token_generator: security.csrf.token_manager
+                
+                #always_use_default_target_path: false
+                #default_target_path: /
+                #target_path_parameter: _target_path
+                #use_referer: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

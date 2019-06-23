@@ -1,0 +1,134 @@
+#comment_score
+{
+	display: none;
+}
+.recettePage
+{
+	.showPage, .editPage, .createPage
+	{
+		.commentaires
+		{
+			margin: $space-6 auto 0;
+			max-width: 1200px;
+			width: 100%;
+			.newCommentContainer
+			{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			h3
+			{
+				margin-bottom: $space-1;
+			}
+			textarea
+			{
+				padding-top: $space-1;
+				width: 100%;
+				min-height: 120px;
+			}
+			button
+			{
+				margin-top: $space-1;
+			}
+			.communaute
+			{
+				li
+				{
+					margin-bottom: $space-4;
+				}
+			}
+			.auteur
+			{
+				font-weight: bold;
+			}
+			.rating 
+			{
+				font-size: 50px;
+				label
+				{
+					display: inline-block;
+					&:hover
+					{
+						color: orange;
+					}
+				}
+				input
+				{
+					opacity: 0;
+				}
+			}
+
+			.scoreContainer
+			{
+				display: flex;
+				flex-direction: row-reverse;
+				justify-content: flex-start;
+				align-items: center;
+
+				input
+				{
+					display: none;
+				}
+
+				.checked
+				{	
+					display: none;
+				}
+
+				label
+				{
+					font-size: 36px;
+					color: $color-hot;
+					&:hover
+					{
+						cursor: pointer;
+					}
+				}
+
+				// checked
+				input:checked ~ label
+				{
+					.checked
+					{
+						display: block;
+					}
+					.unchecked
+					{
+						display: none;
+					}
+				}
+
+				// hover cascade
+				&:not(:checked) > label:hover, &:not(:checked) > label:hover ~ label 
+				{
+					.checked
+					{
+						display: block;
+						color: $color-dark;
+					}
+					.unchecked
+					{
+						display: none;
+					}	
+				}
+
+				// hover cascade already checked
+				/*
+				input:checked + label:hover, input:checked + label:hover ~ label, input:checked ~ label:hover, input:checked ~ label:hover ~ label, label:hover ~ input:checked ~ label
+				{
+					.checked
+					{
+						color: green;
+						display: block;
+					}
+					.unchecked
+					{
+						display: none;
+					}	
+				}
+				*/
+			}
+		}
+	}
+}

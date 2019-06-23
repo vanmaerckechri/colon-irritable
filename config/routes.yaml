@@ -9,8 +9,9 @@ recipe.index:
 recipe.show:
   path: /recette/{slug}-{id}
   requirements: 
-    slug: '[a-z0-9\-]*'
+    slug: '[a-z0-9\--]*'
   controller: App\Controller\RecipeController::show
+  methods: GET
 
 recipe.create:
   path: /admin/recette/creer
@@ -25,6 +26,13 @@ recipe.delete:
   path: /admin/recette/{id}
   controller: App\Controller\CrudRecipeController::delete
   methods: DELETE
+
+comment.create:
+  path: /admin/recette/{slug}-{id}/comment/creer
+  requirements: 
+    slug: '[a-z0-9\-]*'
+  controller: App\Controller\CrudCommentController::create
+  methods: GET|POST
 
 login:
   path: /login

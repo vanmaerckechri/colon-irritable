@@ -39,8 +39,13 @@
 
 .recettePage
 {
+	padding-bottom: $space-6;
 	.showPage, .editPage, .createPage
 	{
+		h4
+		{
+			margin-bottom: $space-0;
+		}
 		.row
 		{
 			display: flex;
@@ -127,7 +132,6 @@
 		}
 		label
 		{
-			margin-bottom: $space-0;
 			display: block;
 		}
 		input[type=text], input[type=number], select, textarea
@@ -142,6 +146,7 @@
 	 	{
 	 		width: 100%;
 	 	}
+
 	 	.col-4, .col-5
 	 	{
 	 		h3
@@ -187,6 +192,8 @@
 			textarea
 			{
 				width: 100%;
+				min-height: 104px;
+				scrollbar-width: none;
 			}
 		}
 		.validateBtn
