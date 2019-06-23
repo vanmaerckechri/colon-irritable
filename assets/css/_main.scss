@@ -191,7 +191,7 @@
 			flex: 1;
 			textarea
 			{
-				width: 100%;
+				width: calc(100% - (2 * #{$space-1}));
 				min-height: 104px;
 				scrollbar-width: none;
 			}

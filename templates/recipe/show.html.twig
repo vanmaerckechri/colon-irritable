@@ -71,37 +71,35 @@
 				{% if userAlreadyComment == false %}
 					<div class="newCommentContainer">
 						<h3>Donnez votre Avis ?</h3>
-						<ul class="scoreContainer">
-							<input type="radio" id="5-star" name="rating" value="5" />
-							<label for="5-star" title="Amazing">
+						<ul id="scoreContainer" class="scoreContainer">
+							<input type="radio" id="star5" name="rating" value="5" />
+							<label for="star5" title="Amazing">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
-							<input type="radio" id="4-star" name="rating" value="4" />
-							<label for="4-star" title="Good">
+							<input type="radio" id="star4" name="rating" value="4" />
+							<label for="star4" title="Good">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
-							<input type="radio" id="3-star" name="rating" value="3" />
-							<label for="3-star" title="Average">
+							<input type="radio" id="star3" name="rating" value="3" />
+							<label for="star3" title="Average">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
-							<input type="radio" id="2-star" name="rating" value="2" />
-							<label for="2-star" title="Not Good">
+							<input type="radio" id="star2" name="rating" value="2" />
+							<label for="star2" title="Not Good">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
-							<input type="radio" id="1-star" name="rating" value="1" />
-							<label for="1-star" title="Bad">
+							<input type="radio" id="star1" name="rating" value="1" />
+							<label for="star1" title="Bad">
 								<span class="unchecked">☆</span>
 								<span class="checked">★</span>
 							</label>
 						</ul>
 					</div>
-
-
-					{{ form_start(form, {'attr': {'id': 'commentsForm'}}) }}
+					{{ form_start(form, {'attr': {'id': 'commentsForm', 'class': 'commentsForm'}}) }}
 						{{ form_rest(form) }}
 						<button>ENREGISTRER</button>
 					{{ form_end(form) }}
@@ -122,4 +120,4 @@
 	</div>
 {% endblock %}
 
-{% block javascripts %}{{ encore_entry_script_tags('rememberFieldValue') }}{% endblock %}
+{% block javascripts %}{{ encore_entry_script_tags('manageVote') }}{% endblock %}

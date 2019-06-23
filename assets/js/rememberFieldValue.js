@@ -2,14 +2,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 	class RememberFieldValue
 	{
-		constructor(formName)
+		constructor(formName, isSubmit)
 		{
 			this.form = document.getElementById(formName);
 
 			this.btn;
 			this.fields;
 
-			this.init();
+			this.init(isSubmit);
 		}
 
 		saveValuesToSession()
@@ -77,10 +77,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
 				this.btn.addEventListener('click', (e)=> { 
 			    	e.preventDefault();
 			    	this.saveValuesToSession();
-			    	this.form.submit();
+			    	if (isSubmit === true)
+			    	{
+			    		this.form.submit();
+			    	}
 		   		});
 		    }
 		}
 	}
-	let rememberFieldValue = new RememberFieldValue('commentsForm');
+	let isSubmit = false;
+	let rememberFieldValue = new RememberFieldValue('commentsForm', isSubmit);
 });

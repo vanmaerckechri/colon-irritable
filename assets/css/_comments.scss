@@ -17,6 +17,10 @@
 				justify-content: space-between;
 				align-items: center;
 			}
+			.commentsForm
+			{
+				margin-bottom: $space-3;
+			}
 			h3
 			{
 				margin-bottom: $space-1;
@@ -24,7 +28,7 @@
 			textarea
 			{
 				padding-top: $space-1;
-				width: 100%;
+				width: calc(100% - (2 * #{$space-1}));
 				min-height: 120px;
 			}
 			button
@@ -128,6 +132,21 @@
 					}	
 				}
 				*/
+			}
+			.scoreContainer.alert
+			{
+				position: relative;
+				&:before
+				{
+					content:'Veuillez choisir une note!';
+					position: absolute;
+					left: 0;
+					top:50%;
+					width: 175px;
+					transform: translate(-100%, -50%);
+					color: red;
+					font-weight: bold;
+				}
 			}
 		}
 	}
