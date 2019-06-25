@@ -50,10 +50,16 @@ class User implements UserInterface,\Serializable
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Recette", inversedBy="fans")
+     */
+    private $favoris;
+
     public function __construct()
     {
         $this->recettes = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +208,40 @@ class User implements UserInterface,\Serializable
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Recette[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function getFavori(Recette $favori): bool
+    {
+        if ($this->favoris->contains($favori)) {
+            return true;
+        }
+        return false;
+    }
+
+    public function addFavori(Recette $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Recette $favori): self
+    {
+        if ($this->favoris->contains($favori)) {
+            $this->favoris->removeElement($favori);
         }
 
         return $this;

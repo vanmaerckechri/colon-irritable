@@ -53,6 +53,36 @@ class CrudRecipeController extends AbstractController
 		]);
 	}
 
+	public function toggleFav(Recette $recette)
+	{
+		$user = $this->getUser();
+		$isFav = $user->getFavori($recette);
+		if (!$isFav)
+		{
+			$recette->addFan($user);
+			$this->em->persist($recette);
+	       	$this->em->flush();
+		}
+		else
+		{
+			$recette->removeFan($user);
+	       	$this->em->flush();
+		}
+
+		$slug = $recette->getSlug();
+
+		return $this->redirectToRoute('recipe.show', [
+			'id' => $recette->getId(),
+			'slug' => $slug,
+		]);
+		/*
+		$favoris = $recette->addUser($user);
+		dump($favoris);
+		$this->em->persist($recette);
+       	$this->em->flush();
+       	*/
+	}
+
 	public function edit(Recette $recette, Request $request)
 	{
 		$user = $this->getUser();

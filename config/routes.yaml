@@ -27,6 +27,11 @@ recipe.delete:
   controller: App\Controller\CrudRecipeController::delete
   methods: DELETE
 
+recipe.favoris:
+  path: /admin/recette/togglefav/{id}
+  controller: App\Controller\CrudRecipeController::toggleFav
+  methods: GET
+
 comment.create:
   path: /admin/recette/{slug}-{id}/comment/creer
   requirements: 

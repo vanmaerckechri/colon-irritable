@@ -10,8 +10,12 @@
 					<h2>{{ recette.titre }}</h2>
 				</div>
 				<div class="tools">
-					<a href="#">
-						<img src="{{ '/images/icons/favoris.png' }}" alt="ajouter aux favoris">
+					<a href="{{ path('recipe.favoris', {id: recette.id}) }}">
+						{% if isFav %}
+							<img src="{{ '/images/icons/isfav.png' }}" alt="ajouter aux favoris">
+						{% else %}
+							<img src="{{ '/images/icons/isnotfav.png' }}" alt="ajouter aux favoris">
+						{% endif %}
 					</a>
 					<a href="#">
 						<img src="{{ '/images/icons/print.png' }}" alt="imprimer">

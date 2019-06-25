@@ -19,6 +19,24 @@ class RecetteRepository extends ServiceEntityRepository
         parent::__construct($registry, Recette::class);
     }
 
+    public function findAllWithOptions(?string $choiceTri)
+    {
+        $order = 'r.createdAt';
+        if ($choiceTri === 'titre')
+        {
+            $order = 'r.titre';
+        }
+        else if ($choiceTri === 'score')
+        {
+            $order = 'r.avScore';
+        }
+        return $this->createQueryBuilder('r')
+            ->orderBy($order, 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Recette[] Returns an array of Recette objects
     //  */

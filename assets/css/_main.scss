@@ -6,6 +6,18 @@
 	{
 		margin-bottom: $space-3;
 	}
+	.infoSms, .alertSms
+	{
+		font-weight: bold;
+	}
+	.infoSms
+	{
+		color: green;
+	}
+	.alertSms
+	{
+		color: red;
+	}
 }
 .recettesListContainer
 {

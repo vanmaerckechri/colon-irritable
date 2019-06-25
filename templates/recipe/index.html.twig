@@ -3,14 +3,24 @@
 {% block title 'Liste des Recettes' %}
 
 {% block body %}
-{% for message in app.flashes('success') %}
-	{{ message }}
-{% endfor%}
-{% for message in app.flashes('error') %}
-	{{ message }}
-{% endfor%}
+
 <div id="main">
 	<div class="mainContent maxWidthMain">
+		{% for message in app.flashes('success') %}
+			<p class="infoSms">{{ message }}</p>
+		{% endfor %}
+		{% for message in app.flashes('error') %}
+			<p class="alertSms">{{ message }}</p>
+		{% endfor %}
+		<div class="row">
+			<form name="trier" method="post" action="{{ path('recipe.index') }}">
+				<select name="trier">
+					<option value="date"{{ ('date' in trier) ? 'selected' : '' }}>Date</option>
+					<option value="titre"{{ ('titre' in trier) ? 'selected' : '' }}>Titre</option>					
+					<option value="score"{{ ('score' in trier) ? 'selected' : '' }}>Score</option>
+				</select>
+				<button type="submit">TRIER</button>
+			</form>
 		<h2>Les Recettes</h2>
 		<div class="recettesListContainer">
 			{% for recette in recettes %}

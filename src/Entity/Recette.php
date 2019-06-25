@@ -33,6 +33,11 @@ class Recette
     private $id;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $avScore;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="recettes")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -106,6 +111,11 @@ class Recette
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="favoris")
+     */
+    private $fans;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -113,11 +123,24 @@ class Recette
         $this->ingredients = new ArrayCollection();
         $this->etapes = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->fans = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getAvScore(): ?string
+    {
+        return $this->avScore;
+    }
+
+    public function setAvScore(?float $avScore): self
+    {
+        $this->avScore = $avScore;
+
+        return $this;
     }
 
     public function getUser(): ?User
@@ -329,7 +352,6 @@ class Recette
             $this->comments[] = $comment;
             $comment->setRecette($this);
         }
-
         return $this;
     }
 
@@ -341,6 +363,34 @@ class Recette
             if ($comment->getRecette() === $this) {
                 $comment->setRecette(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getFans(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addFan(User $user): self
+    {
+        if (!$this->fans->contains($user)) {
+            $this->fans[] = $user;
+            $user->addFavori($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFan(User $user): self
+    {
+        if ($this->fans->contains($user)) {
+            $this->fans->removeElement($user);
+            $user->removeFavori($this);
         }
 
         return $this;

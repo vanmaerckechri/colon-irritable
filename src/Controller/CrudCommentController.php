@@ -59,14 +59,12 @@ class CrudCommentController extends AbstractController
         	$this->em->persist($comment);
         	$this->em->flush();
         	return $this->redirectToRoute('recipe.show', [
-				'current_menu' => 'recipe.show',
 				'id' => $recette->getId(),
 				'slug' => $slug
 			]);
         }
 
         return $this->redirectToRoute('recipe.show', [
-			'current_menu' => 'recipe.show',
 			'id' => $recette->getId(),
 			'slug' => $slug
 		]);

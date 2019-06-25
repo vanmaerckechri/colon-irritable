@@ -54,38 +54,24 @@ class RecipeController extends AbstractController
 		$this->commentRepository = $commentRepository;
 	}
 
-	public function calculRecetteAverageScore(Recette $recette)
-	{
-		$users = $this->commentRepository->getRecetteScoreAverage($recette);
-
-		$output = 0;
-		$usersLength = count($users);
-		if ($usersLength > 0)
-		{
-			foreach ($users as $user) 
-			{
-				$output += $user['score'];
-			}
-			$output = $output / $usersLength;
-		}
-		return $output;
-	}
-
 	public function index(PaginatorInterface $paginator, Request $request) : Response
 	{
+		$trier = $request->request->get('trier');
+
 		$recettes = $paginator->paginate(
-			$this->repository->findAll(),
+			$this->repository->findAllWithOptions($trier),
 			$request->query->getInt('page', 1),
 			12
 		);
 
 		return $this->render('recipe/index.html.twig', [
 			'current_menu' => 'recipe.index',
-			'recettes' => $recettes
+			'recettes' => $recettes,
+			'trier' => $trier
 		]);
 	}
 
-	public function show(ObjectManager $em, Recette $recette, string $slug, Request $request) : Response
+	public function show(Recette $recette, string $slug, Request $request) : Response
 	{
 		$goodSlug = $recette->getSlug();
 
@@ -106,21 +92,37 @@ class RecipeController extends AbstractController
 			]),
 		]);
 
-        $user = $this->getUser();
-		$userAlreadyComment = false;
-		if ($this->commentRepository->checkAlreadyComment($user, $recette))
-		{
-			$userAlreadyComment = true;
-		}
 
-		$recetteAverageScore = $this->calculRecetteAverageScore($recette);
+		$userInfos = $this->getUserInfos($recette);
+		$isFav = $userInfos[0];
+		$userAlreadyComment = $userInfos[1];
+
+		$recetteAverageScore = $recette->getAvScore();
 
        	return $this->render('recipe/show.html.twig', [
 			'current_menu' => 'recipe.show',
 			'recette' => $recette,
 			'userAlreadyComment' => $userAlreadyComment,
 			'recetteAverageScore' => $recetteAverageScore,
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'isFav' => $isFav
 		]);
+	}
+
+	public function getUserInfos(Recette $recette) : array
+	{
+		$user = $this->getUser();
+        $isFav = false;
+        $userAlreadyComment = false;
+        if ($user)
+        {
+	        $isFav = $user->getFavori($recette);
+			$userAlreadyComment = false;
+			if ($this->commentRepository->checkAlreadyComment($user, $recette))
+			{
+				$userAlreadyComment = true;
+			}
+        }
+        return [$isFav, $userAlreadyComment];
 	}
 }
