@@ -14,6 +14,24 @@
 		{% endfor %}
 		<div class="row">
 			<form name="trier" method="post" action="{{ path('recipe.index') }}">
+				<div class="optionsAfficher">
+					<div>
+						<input type="checkbox" id="vosFav" name="vosFav"{{ ('on' in afficher['vosFav']) ? 'checked' : '' }}>
+	  					<label for="vosFav">vos favoris</label>
+	  					<input type="checkbox" id="vosRea" name="vosRea"{{ ('on' in afficher['vosRea']) ? 'checked' : '' }}>
+	  					<label for="vosRea">vos réalisation</label>
+	  					<input type="checkbox" id="autres" name="autres"{{ ('on' in afficher['autres']) ? 'checked' : '' }}>
+	  					<label for="autres">les autres</label>
+	  				</div>
+	  				<div>
+						<input type="checkbox" id="entrees" name="entrees"{{ ('on' in afficher['entrees']) ? 'checked' : '' }}>
+	  					<label for="entrees">les entrées</label>
+	  					<input type="checkbox" id="platsPrincipaux" name="platsPrincipaux"{{ ('on' in afficher['platsPrincipaux']) ? 'checked' : '' }}>
+	  					<label for="platsPrincipaux">les plats principaux</label>
+	  					<input type="checkbox" id="desserts" name="desserts"{{ ('on' in afficher['desserts']) ? 'checked' : '' }}>
+	  					<label for="desserts">les desserts</label>	  					
+	  				</div>
+  				</div>
 				<select name="trier">
 					<option value="date"{{ ('date' in trier) ? 'selected' : '' }}>Date</option>
 					<option value="titre"{{ ('titre' in trier) ? 'selected' : '' }}>Titre</option>					

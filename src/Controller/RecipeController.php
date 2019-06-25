@@ -56,10 +56,21 @@ class RecipeController extends AbstractController
 
 	public function index(PaginatorInterface $paginator, Request $request) : Response
 	{
+		$user = $this->getUser();
+
 		$trier = $request->request->get('trier');
 
+		$afficher = array(
+			'vosFav' => $request->request->get('vosFav'),
+			'vosRea' => $request->request->get('vosRea'),
+			'autres' => $request->request->get('autres'),
+			'entrees' => $request->request->get('entrees'),
+			'platsPrincipaux' => $request->request->get('platsPrincipaux'),
+			'desserts' => $request->request->get('desserts'),
+		);
+
 		$recettes = $paginator->paginate(
-			$this->repository->findAllWithOptions($trier),
+			$this->repository->findAllWithOptions($afficher, $trier, $user),
 			$request->query->getInt('page', 1),
 			12
 		);
@@ -67,7 +78,8 @@ class RecipeController extends AbstractController
 		return $this->render('recipe/index.html.twig', [
 			'current_menu' => 'recipe.index',
 			'recettes' => $recettes,
-			'trier' => $trier
+			'trier' => $trier,
+			'afficher' => $afficher
 		]);
 	}
 
