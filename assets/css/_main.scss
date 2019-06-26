@@ -29,23 +29,36 @@
 {
 	margin-bottom: $space-4;
 	border: 3px solid $color-hot;
-	position: relative;
-	width: 400px;
-	height: 300px;
+	display: flex;
+	flex-direction: column;
 	h3
 	{
-		position: absolute;
-		left: 0;
-		top: 0;
+		margin-bottom: 0;
+		padding: 4px;
 		width: 100%;
 		text-align: center;
 		color: $color-light;
+		background-color: $color-dark;
 	}
 	img
 	{
-		width: 100%;
-		height: 100%;
+		width: 400px;
+		height: 300px;
 		object-fit: cover;
+	}
+	.recetteAverageScore
+	{
+		padding-right: $space-0;
+		display: inline-block;
+		text-align: right;
+		background-color: $color-dark;
+		.star
+		{
+			display: inline-block;
+			font-size: 24px;
+			color: $color-light;
+			font-weight: normal;
+		}
 	}
 }
 .indexPage
@@ -158,6 +171,19 @@
 					}
 				}
 			}
+		}
+	}
+	.pagination
+	{
+		margin-bottom: $space-4;
+		font-family: $fontFamily-title;
+		text-align: center;
+		font-size: $fontSize-h2;
+		.current
+		{
+			font-size: $fontSize-h1;
+			color: $color-dark;	
+			font-weight: bold;				
 		}
 	}
 }
@@ -372,16 +398,16 @@
 				{
 					display: inline-block;
 				}
-				.recetteAverageScore
-				{
-					display: inline-block;
-					.star
-					{
-						display: inline-block;
-						font-size: 24px;
-						color: $color-dark;
-					}
-				}
+			}
+		}
+		.recetteAverageScore
+		{
+			display: inline-block;
+			.star
+			{
+				display: inline-block;
+				font-size: 24px;
+				color: $color-dark;
 			}
 		}
 	}

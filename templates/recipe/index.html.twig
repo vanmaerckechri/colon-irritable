@@ -66,6 +66,15 @@
 					{% else %}
 						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
 					{% endif %}
+					<div class="recetteAverageScore">
+						{% for i in 1..5 %}
+							{% if i <= recette.avScore %}
+								<p class="star">★</p>
+							{% else %}
+								<p class="star">☆</p>
+							{% endif %}
+						{% endfor %}
+					</div>
 				</a>
 			{% endfor %}
 		</div>
