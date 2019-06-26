@@ -64,7 +64,7 @@
 						{% for ingredient in form.ingredients %}
 					    	<li>
 						    	{{ form_label(ingredient) }}
-							    {{ form_widget(ingredient) }}
+							    {{ form_widget(ingredient, {'attr': {'class': 'AALLLOOO'}}) }}
 							    {{ form_help(ingredient) }}
 							    {{ form_errors(ingredient) }}
 						    </li>

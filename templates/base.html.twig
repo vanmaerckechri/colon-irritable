@@ -15,15 +15,19 @@
                 </a>
                 <div class="profilContainer">
                     {% if app.user %}
-                        <a class="profil" href="#">
+                        <img src="{{ '/images/icons/profil.png' }}" alt="logo du site">
+                        <div class="profil">
+                            <p>mon compte</p>
+                            <div class="hiddenContainer">
+                                <a href="#">configurer</a>
+                                <a href="{{ path('logout') }}">se déconnecter</a>
+                            </div>
+                        </div>
                     {% else %}
                         <a class="profil" href="{{ path('login') }}">
-                    {% endif %}
-                        <img src="{{ '/images/icons/profil.png' }}" alt="logo du site">
-                        <p>mon compte</p>
-                    </a>
-                    {% if app.user %}
-                        <a href="{{ path('logout') }}">logout</a>
+                            <img src="{{ '/images/icons/profil.png' }}" alt="logo du site">
+                            <p>mon compte</p>
+                        </a>
                     {% endif %}
                 </div>
             </div>

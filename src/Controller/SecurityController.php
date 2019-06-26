@@ -11,13 +11,17 @@ class SecurityController extends AbstractController
 {
 	public function login(AuthenticationUtils $authenticationUtils, Request $request)
 	{
-		$error = $authenticationUtils->getLastAuthenticationError();
-		$lastPseudo = $authenticationUtils->getLastUsername();
+		if (!is_null($this->getUser()))
+		{
+        	$this->addFlash('success', 'Vous êtes déjà connecté à votre compte!');
+        	return $this->redirectToRoute('recipe.index');
+		}
 
-		dump($request);
+		$error = $authenticationUtils->getLastAuthenticationError();
+		$lastUsername = $authenticationUtils->getLastUsername();
 
 		return $this->render('security/login.html.twig', [
-			'last_pseudo' => $lastPseudo,
+			'last_username' => $lastUsername,
 			'error' => $error
 		]);
 	}

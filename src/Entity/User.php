@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"mail", "pseudo"})
+ * @UniqueEntity(fields={"mail", "username"})
  */
 class User implements UserInterface,\Serializable
 {
@@ -26,13 +26,20 @@ class User implements UserInterface,\Serializable
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=5, max=255)
      */
-    private $pseudo;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=8, max=255)
      */
-    private $mdp;
+    private $password;
+
+    /**
+     * A non-persisted field that's used to create the encoded password.
+     *
+     * @var string
+     */
+    private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=320)
@@ -69,24 +76,36 @@ class User implements UserInterface,\Serializable
 
     public function getUsername(): ?string
     {
-        return $this->pseudo;
+        return $this->username;
     }
 
-    public function setUsername(string $pseudo): self
+    public function setUsername(string $username): self
     {
-        $this->pseudo = $pseudo;
+        $this->username = $username;
 
         return $this;
     }
 
     public function getPassword(): ?string
     {
-        return $this->mdp;
+        return $this->password;
     }
 
-    public function setPassword(string $mdp): self
+    public function setPassword(string $password): self
     {
-        $this->mdp = $mdp;
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
@@ -154,6 +173,7 @@ class User implements UserInterface,\Serializable
 
     public function eraseCredentials()
     {
+        $this->plainPassword = null;
     }
 
     // Methodes pour Serializable.
@@ -165,8 +185,8 @@ class User implements UserInterface,\Serializable
     {
         return serialize([
             $this->id,
-            $this->pseudo,
-            $this->mdp
+            $this->username,
+            $this->password
         ]);
     }
 
@@ -177,8 +197,8 @@ class User implements UserInterface,\Serializable
     {
         list (
             $this->id,
-            $this->pseudo,
-            $this->mdp
+            $this->username,
+            $this->password
             ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
@@ -219,14 +239,6 @@ class User implements UserInterface,\Serializable
     public function getFavoris(): Collection
     {
         return $this->favoris;
-    }
-
-    public function getFavori(Recette $favori): bool
-    {
-        if ($this->favoris->contains($favori)) {
-            return true;
-        }
-        return false;
     }
 
     public function addFavori(Recette $favori): self

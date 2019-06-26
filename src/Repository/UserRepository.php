@@ -19,6 +19,25 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function isUserFanRecette(string $idUser, string $idRecette)
+    {
+        $result = $this->createQueryBuilder('u')
+            ->innerJoin('u.favoris', 'r')
+            ->innerJoin('r.fans', 't')
+            ->andwhere('r.id = :idRecette')
+            ->setParameter('idRecette', $idRecette)
+            ->andwhere('u.id = :idUser')
+            ->setParameter('idUser', $idUser)
+            ->getQuery()
+            ->getResult();
+        ;
+        if ($result)
+        {
+            return true;
+        }
+        return false;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

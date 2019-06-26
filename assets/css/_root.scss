@@ -15,6 +15,7 @@ html
 body
 {
 	width: 100%;
+	min-height: 100vh;
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -93,18 +94,4 @@ textarea
 	color: $color-hot;
 	background-color: $color-light;
 	cursor: pointer;
-}
-.maxWidthHeader
-{
-	margin: 0 auto;
-	padding: 0 $spaceWidth-page;
-	max-width: $maxWidth-header;
-	width: 100%;
-}
-.maxWidthMain
-{
-	margin: 0 auto;
-	padding: 0 $spaceWidth-page;
-	max-width: $maxWidth-main;
-	width: 100%;
 }

@@ -1,3 +1,19 @@
+// common
+.maxWidthMain
+{
+	margin: 0 auto;
+	padding: 0 $spaceWidth-page;
+	max-width: $maxWidth-main;
+	width: 100%;
+}
+.inputField, input, select, textarea
+{
+	border: 2px solid $color-hot;
+	padding: 0 $space-1;
+	height: 52px;
+	color: $color-light;
+	background-color: $color-dark;
+}
 #main
 {
 	margin-top: $space-3;
@@ -19,6 +35,7 @@
 		color: red;
 	}
 }
+// Index Page
 .recettesListContainer
 {
 	display: flex;
@@ -55,7 +72,7 @@
 		.star
 		{
 			display: inline-block;
-			font-size: 24px;
+			font-size: $fontSize-stars;
 			color: $color-light;
 			font-weight: normal;
 		}
@@ -92,18 +109,20 @@
 				}
 				.filtrerDetail
 				{
-					font-size: 18px;
+					font-size: $main-fontSize;
 				}
 				label
 				{
 					margin: 0;
 					padding: $space-0 $space-1 $space-0 0;
-					display: block;
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
 					color: $color-hot;
 					background-color: $color-light;
 					font-family: $fontFamily-text;
 					font-weight: bold;
-					font-size: 18px;
+					font-size: $main-fontSize;
 					&:hover
 					{
 						color: $color-light;
@@ -188,6 +207,7 @@
 	}
 }
 
+// Common to ShowPage, CreatePage and EditPage
 .recettePage
 {
 	padding-bottom: $space-6;
@@ -285,14 +305,6 @@
 		{
 			display: block;
 		}
-		input[type=text], input[type=number], select, textarea
-	 	{
-	 		border: 2px solid $color-hot;
-	 		padding: 0 $space-1;
-	 		height: 52px;
-	 		color: $color-light;
-	 		background-color: $color-dark;
-	 	}
 	 	input[type=text]
 	 	{
 	 		width: 100%;
@@ -360,6 +372,7 @@
 	}
 }
 
+// ShowPage
 .recettePage
 {
 	.showPage
@@ -410,5 +423,75 @@
 				color: $color-dark;
 			}
 		}
+	}
+}
+
+// Login
+.loginPage
+{
+	.mainContent
+	{
+		display: flex;
+		justify-content: space-between;
+	}
+	.col-1
+	{
+		flex: 1;
+		form
+		{
+			max-width: 512px;
+			width: 100%;
+			label
+			{
+				display: block;
+				color: $color-hot;
+			}
+			& > input
+			{
+				margin-bottom: $space-3;
+			}
+			.pseudo, .pwd
+			{
+				width: 100%;
+			}
+		}
+		.optionsContainer
+		{
+			margin-bottom: $space-3;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: baseline;
+			.rememberContainer
+			{
+				white-space:nowrap;
+				label, input
+				{
+					margin-bottom: 0;
+					height: auto;
+					display: inline-block;
+					&:hover
+					{
+						cursor: pointer;
+					}
+				}
+			}
+			.rememberContainer label, .forgetPwdBtn
+			{
+				font-size: $main-fontSize;
+			}
+			.forgetPwdBtn
+			{
+				margin-left: $space-0;
+			}
+		}
+		.signinContainer
+		{
+			margin-top: $space-3;
+		}
+	}
+	.col-2
+	{
+		flex: 1;
 	}
 }

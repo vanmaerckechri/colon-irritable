@@ -5,6 +5,7 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use App\Entity\Recette;
 use App\Repository\RecetteRepository;
 use App\Form\RecetteType;
+use App\Repository\UserRepository;
 // Permet de manipuler les tables de la BDD.
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,9 +24,10 @@ class CrudRecipeController extends AbstractController
 	 */
 	private $em;
 
-	public function __construct(RecetteRepository $repository, ObjectManager $em)
+	public function __construct(UserRepository $userRepository, RecetteRepository $repository, ObjectManager $em)
 	{
 		$this->repository = $repository;
+		$this->userRepository = $userRepository;
 		$this->em = $em;
 	}
 
@@ -56,7 +58,7 @@ class CrudRecipeController extends AbstractController
 	public function toggleFav(Recette $recette)
 	{
 		$user = $this->getUser();
-		$isFav = $user->getFavori($recette);
+		$isFav = $this->userRepository->isUserFanRecette($user->getId(), $recette->getId());
 		if (!$isFav)
 		{
 			$recette->addFan($user);

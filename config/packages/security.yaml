@@ -4,7 +4,7 @@ security:
         from_database:
             entity:
                 class: App\Entity\User
-                property: pseudo
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,6 +17,9 @@ security:
             form_login:
                 check_path: login
                 csrf_token_generator: security.csrf.token_manager
+            remember_me:
+                secret: '%kernel.secret%'
+                path: /  
                 
                 #always_use_default_target_path: false
                 #default_target_path: /

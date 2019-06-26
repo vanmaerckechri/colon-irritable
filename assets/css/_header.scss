@@ -4,6 +4,13 @@ header
 	padding: $space-2 0;
 	width: 100%;
 }
+.maxWidthHeader
+{
+	margin: 0 auto;
+	padding: 0 $spaceWidth-page;
+	max-width: $maxWidth-header;
+	width: 100%;
+}
 .headerContent
 {
 	display: flex;
@@ -25,20 +32,61 @@ header
 	display: inline-flex;
 	justify-content: flex-start;
 	align-items: center;
-	.profil
+	img
+	{
+		width: 36px;
+		height: 36px;
+	}
+	// loged
+	div.profil
+	{
+		margin-left: $space-1;
+		font-family: $fontFamily-title;
+		font-weight: bold;
+		color: $color-hot;
+		.hiddenContainer
+		{
+			border: 1px solid $color-light;
+			display: none;
+			width: 100%;
+			background-color: $color-light;
+			font-size: $main-fontSize;
+			a
+			{
+				padding: $space-0 $space-1;
+				display: block;
+				&:hover
+				{
+					color: $color-light;
+					background-color: $color-hot;
+				}
+			}
+		}
+	}
+	&:hover
+	{
+		position: relative;
+		cursor: pointer;
+		div.profil
+		{
+			.hiddenContainer
+			{
+				display: block;
+				position: absolute;
+				top: 100%;
+				left: 0;
+			}
+		}
+	}
+	// unloged
+	a.profil
 	{
 		display: inline-flex;
 		justify-content: flex-start;
 		align-items: center;
-		img
-		{
-			width: 36px;
-			height: 36px;
-		}
 		p
 		{
-			margin: 0 $space-2;
-			display: inline-block;
+			margin-left: $space-1;
 		}
 	}
 }

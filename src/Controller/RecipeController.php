@@ -6,6 +6,7 @@ use App\Entity\Recette;
 use App\Entity\Comment;
 // Permet d'accéder à une table. Sert uniquement si on appelle la table via le construct du controller ou par les arguments de classe.
 // Si la table avait directement été appelée dans une classe ex: $repository = $this->getDoctrine()->getRepository(Nomdelatable::class); Il aurait été inutile de l'appeler ici.
+use App\Repository\UserRepository;
 use App\Repository\RecetteRepository;
 use App\Repository\CommentRepository;
 
@@ -38,6 +39,7 @@ class RecipeController extends AbstractController
 
 	*/
 
+
 	/**
 	 * @var TestRepository
 	 */
@@ -48,8 +50,9 @@ class RecipeController extends AbstractController
 	 */
 	private $em;
 
-	public function __construct(RecetteRepository $repository, CommentRepository $commentRepository)
+	public function __construct(UserRepository $userRepository, RecetteRepository $repository, CommentRepository $commentRepository)
 	{
+		$this->userRepository = $userRepository;
 		$this->repository = $repository;
 		$this->commentRepository = $commentRepository;
 	}
@@ -128,7 +131,8 @@ class RecipeController extends AbstractController
         $userAlreadyComment = false;
         if ($user)
         {
-	        $isFav = $user->getFavori($recette);
+	        $isFav = $this->userRepository->isUserFanRecette($user->getId(), $recette->getId());
+
 			$userAlreadyComment = false;
 			if ($this->commentRepository->checkAlreadyComment($user, $recette))
 			{
