@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<div id="main">
+<div id="main" class="indexPage">
 	<div class="mainContent maxWidthMain">
 		{% for message in app.flashes('success') %}
 			<p class="infoSms">{{ message }}</p>
@@ -12,34 +12,51 @@
 		{% for message in app.flashes('error') %}
 			<p class="alertSms">{{ message }}</p>
 		{% endfor %}
-		<div class="row">
-			<form name="trier" method="post" action="{{ path('recipe.index') }}">
-				<div class="optionsAfficher">
-					<div>
-						<input type="checkbox" id="vosFav" name="vosFav"{{ ('on' in afficher['vosFav']) ? 'checked' : '' }}>
-	  					<label for="vosFav">vos favoris</label>
-	  					<input type="checkbox" id="vosRea" name="vosRea"{{ ('on' in afficher['vosRea']) ? 'checked' : '' }}>
-	  					<label for="vosRea">vos réalisation</label>
-	  					<input type="checkbox" id="autres" name="autres"{{ ('on' in afficher['autres']) ? 'checked' : '' }}>
-	  					<label for="autres">les autres</label>
-	  				</div>
-	  				<div>
-						<input type="checkbox" id="entrees" name="entrees"{{ ('on' in afficher['entrees']) ? 'checked' : '' }}>
-	  					<label for="entrees">les entrées</label>
-	  					<input type="checkbox" id="platsPrincipaux" name="platsPrincipaux"{{ ('on' in afficher['platsPrincipaux']) ? 'checked' : '' }}>
-	  					<label for="platsPrincipaux">les plats principaux</label>
-	  					<input type="checkbox" id="desserts" name="desserts"{{ ('on' in afficher['desserts']) ? 'checked' : '' }}>
-	  					<label for="desserts">les desserts</label>	  					
+		<div class="rowTitre">
+			<h2>Les Recettes</h2>
+			<form class="filtrerTrierForm" name="trier" method="post" action="{{ path('recipe.index') }}">
+				<div class="filtrerContainer">
+					<h3>Afficher<span id="filtrerDetail" class="filtrerDetail"></span></h3>
+					<div class="hiddenContainer">
+						{% if app.user %}
+							<label><!--
+								--><input type="checkbox" id="vosFav" name="vosFav"{{ ('on' in afficher['vosFav']) ? 'checked' : '' }}><!--
+								-->vos favoris<!--
+							--></label>
+							<label><!--
+		  						--><input type="checkbox" id="vosRea" name="vosRea"{{ ('on' in afficher['vosRea']) ? 'checked' : '' }}><!--
+		  						-->vos réalisations<!--
+		  					--></label>
+		  					<label class="autres"><!--
+		  						--><input type="checkbox" id="autres" name="autres"{{ ('on' in afficher['autres']) ? 'checked' : '' }}><!--
+		  						-->les autres<!--
+		  					--></label>
+						{% endif %}
+						<label><!--
+							--><input type="checkbox" id="entrees" name="entrees"{{ ('on' in afficher['entrees']) ? 'checked' : '' }}><!--
+							-->les entrées<!--
+	  					--></label>
+	  					<label><!--
+	  						--><input type="checkbox" id="platsPrincipaux" name="platsPrincipaux"{{ ('on' in afficher['platsPrincipaux']) ? 'checked' : '' }}><!--
+	  						-->les plats principaux<!--
+	  					--></label>
+	  					<label><!--
+		  					--><input type="checkbox" id="desserts" name="desserts"{{ ('on' in afficher['desserts']) ? 'checked' : '' }}><!--
+		  					-->les desserts<!--
+	  					--></label>
 	  				</div>
   				</div>
-				<select name="trier">
-					<option value="date"{{ ('date' in trier) ? 'selected' : '' }}>Date</option>
-					<option value="titre"{{ ('titre' in trier) ? 'selected' : '' }}>Titre</option>					
-					<option value="score"{{ ('score' in trier) ? 'selected' : '' }}>Score</option>
-				</select>
-				<button type="submit">TRIER</button>
+  				<div class="trierContainer">
+  					<h3>Trier par</h3>
+					<select name="trier">
+						<option value="date"{{ ('date' in trier) ? 'selected' : '' }}>Date</option>
+						<option value="titre"{{ ('titre' in trier) ? 'selected' : '' }}>Titre</option>					
+						<option value="score"{{ ('score' in trier) ? 'selected' : '' }}>Score</option>
+					</select>
+				</div>
+				<button type="submit">CHERCHER</button>
 			</form>
-		<h2>Les Recettes</h2>
+		</div>
 		<div class="recettesListContainer">
 			{% for recette in recettes %}
 				<a class="recetteLink" href="{{ path('recipe.show', {id: recette.id, slug: recette.slug}) }}">
@@ -49,13 +66,6 @@
 					{% else %}
 						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
 					{% endif %}
-					{% if app.user and app.user == recette.user %}
-						<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
-							<input type="hidden" name="_method" value="DELETE">
-							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
-							<button>SUPPRIMER</button>
-						</form>
-					{% endif %}
 				</a>
 			{% endfor %}
 		</div>
@@ -63,3 +73,5 @@
 	</div>
 </div>
 {% endblock %}
+
+{% block javascripts %}{{ encore_entry_script_tags('manageSortBy') }}{% endblock %}

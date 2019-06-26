@@ -99,7 +99,14 @@
 					</div>
 				</div>
 				{% if app.user and app.user == recette.user %}
-					<a  class="btn validateBtn" href="{{ path('recipe.edit', {id: recette.id, slug: recette.slug}) }}">EDITER</a>
+					<div class="userBtnContainer">
+						<a  class="btn editBtn" href="{{ path('recipe.edit', {id: recette.id, slug: recette.slug}) }}">EDITER</a>
+						<form method="post" action="{{ path('recipe.delete', {id: recette.id}) }}" onsubmit="return confirm('La Suppression de la recette est irréversible! Désirez-vous continuer ?')">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ recette.id) }}">
+							<button>SUPPRIMER</button>
+						</form>
+					</div>
 				{% endif %}
 			</div>
 			<div class="commentaires">
