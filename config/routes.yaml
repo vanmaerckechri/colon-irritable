@@ -14,26 +14,26 @@ recipe.show:
   methods: GET
 
 recipe.create:
-  path: /admin/recette/creer
+  path: /member/recette/creer
   controller: App\Controller\CrudRecipeController::create
 
 recipe.edit:
-  path: /admin/recette/{id}
+  path: /member/recette/{id}
   controller: App\Controller\CrudRecipeController::edit
   methods: GET|POST
 
 recipe.delete:
-  path: /admin/recette/{id}
+  path: /member/recette/{id}
   controller: App\Controller\CrudRecipeController::delete
   methods: DELETE
 
 recipe.favoris:
-  path: /admin/recette/togglefav/{id}
+  path: /member/recette/togglefav/{id}
   controller: App\Controller\CrudRecipeController::toggleFav
   methods: GET
 
 comment.create:
-  path: /admin/recette/{slug}-{id}/comment/creer
+  path: /member/recette/{slug}-{id}/comment/creer
   requirements: 
     slug: '[a-z0-9\-]*'
   controller: App\Controller\CrudCommentController::create
