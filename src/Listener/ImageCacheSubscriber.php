@@ -89,11 +89,21 @@ class ImageCacheSubscriber implements EventSubscriber
 
 	private function resiveOriginalImage($entity)
 	{
+		$dWidth = 800;
+		$dHeight = 600;
 		$src = $entity->getImageFile()->getPathName();
-        list($width, $height) = getimagesize($src);
+        list($sWidth, $sHeight) = getimagesize($src);
+        if ($sWidth < $sHeight)
+        {
+        	$dHeight = ceil($sHeight / ($sWidth / $dWidth));
+        }
+        else
+        {
+         	$dWidth = ceil($sWidth / ($sHeight / $dHeight));       	
+        }
 		$newSrc = imagecreatefromjpeg($src);
-        $dst = imagecreatetruecolor(800, 600);
-        imagecopyresampled($dst, $newSrc, 0, 0, 0, 0, 800, 600, $width, $height);
+        $dst = imagecreatetruecolor($dWidth, $dHeight);
+        imagecopyresampled($dst, $newSrc, 0, 0, 0, 0, $dWidth, $dHeight, $sWidth, $sHeight);
 		imagejpeg($dst, $src);
 	}
 }
