@@ -114,13 +114,16 @@ class RecipeController extends AbstractController
 
 		$recetteAverageScore = $recette->getAvScore();
 
+		$author = $this->userRepository->findOnNameBy($recette->getUser());
+
        	return $this->render('recipe/show.html.twig', [
 			'current_menu' => 'recipe.show',
 			'recette' => $recette,
 			'userAlreadyComment' => $userAlreadyComment,
 			'recetteAverageScore' => $recetteAverageScore,
 			'form' => $form->createView(),
-			'isFav' => $isFav
+			'isFav' => $isFav,
+			'author' => $author
 		]);
 	}
 

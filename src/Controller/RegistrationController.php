@@ -55,6 +55,13 @@ class RegistrationController extends AbstractController
 
     public function activation(string $code, Request $request): Response
     {
+        $user = $this->getUser();
+
+        if (!is_null($user))
+        {
+            return $this->redirectToRoute('recipe.index');
+        }
+        
         $repository = $this->getDoctrine()->getRepository(User::class);
 
         $user = $repository->findOneBy(['code' => $code]);
@@ -71,6 +78,7 @@ class RegistrationController extends AbstractController
                 $entityManager->flush();
                 
                 $this->addFlash('success', 'Votre compte vient d\'être activé avec succès.');
+                return $this->redirectToRoute('recipe.index');
             }
         }
         else

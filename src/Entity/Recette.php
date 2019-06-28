@@ -82,7 +82,12 @@ class Recette
 
     /**
      * @Vich\UploadableField(mapping="recette_image", fileNameProperty="image")
-     * @Assert\Image(mimeTypes="image/jpeg")
+     * @Assert\Image(
+     *      mimeTypes="image/jpeg",
+     *      allowPortrait = false,
+     *      minWidth = 400,
+     *      minHeight = 300,
+     *  )
      */
     private $imageFile;
 
@@ -246,6 +251,12 @@ class Recette
      */
     public function setImageFile(?File $imageFile): void
     {
+        list($width, $height) = getimagesize($imageFile);
+
+        /*dump($imageFile->getBaseName());
+        dump($dst);
+        dump($imageFile);*/
+
         $this->imageFile = $imageFile;
         if (null !== $imageFile) {
             $this->updatedAt = new \DateTime();

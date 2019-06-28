@@ -67,11 +67,13 @@ class SecurityController extends AbstractController
 
 	public function resetPassword(string $code = null, UserPasswordEncoderInterface $passwordEncoder, Request $request)
     {
+    	$user = $this->getUser();
+
         $repository = $this->getDoctrine()->getRepository(User::class);
 
-        if (!is_null($code))
+        if (!is_null($code) || !is_null($user))
         {
-	        $user = $repository->findOneBy(['code' => $code]);
+	        $user = is_null($user) ? $repository->findOneBy(['code' => $code]) : $user;
 
 	        if ($user)
 	        {
@@ -104,12 +106,7 @@ class SecurityController extends AbstractController
 				]);
 	        }
         }
-        $user = $this->getUser();
-
-		if (is_null($user))
-		{
-    		$this->addFlash('error', 'Le code de réinitialisation du mot de passe est perimé. Veuillez effectuer une nouvelle demande!');
-		}
+    	$this->addFlash('error', 'Le code de réinitialisation du mot de passe est perimé. Veuillez effectuer une nouvelle demande!');
 	    return $this->redirectToRoute('recipe.index');
     }
 }

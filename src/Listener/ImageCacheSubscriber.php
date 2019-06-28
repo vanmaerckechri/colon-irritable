@@ -34,7 +34,8 @@ class ImageCacheSubscriber implements EventSubscriber
 	{
 		return [
 			'preRemove',
-			'preUpdate'
+			'preUpdate',
+			'prePersist'
 		];
 	}
 
@@ -45,6 +46,7 @@ class ImageCacheSubscriber implements EventSubscriber
 		{
 			return;
 		}
+
 		if ($entity->getImage() !== null)
 		{
 			$this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
@@ -59,10 +61,39 @@ class ImageCacheSubscriber implements EventSubscriber
 		{
 			return;
 		}
+
 		$entity->setUpdatedAt(new \DateTime('now'));
-		if ($entity->getImageFile() instanceof UploadedFile && $entity->getImage() !== null)
+
+		if ($entity->getImageFile() instanceof UploadedFile)
 		{
+			$this->resiveOriginalImage($entity);
 			$this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
 		}
+	}
+
+	public function prePersist(LifecycleEventArgs $args)
+	{
+		$entity = $args->getEntity();
+
+		if (!$entity instanceof Recette)
+		{
+			return;
+		}
+
+		if ($entity->getImageFile() instanceof UploadedFile)
+		{
+			$this->resiveOriginalImage($entity);
+			$this->cacheManager->remove($this->uploaderHelper->asset($entity, 'imageFile'));
+		}
+	}
+
+	private function resiveOriginalImage($entity)
+	{
+		$src = $entity->getImageFile()->getPathName();
+        list($width, $height) = getimagesize($src);
+		$newSrc = imagecreatefromjpeg($src);
+        $dst = imagecreatetruecolor(800, 600);
+        imagecopyresampled($dst, $newSrc, 0, 0, 0, 0, 800, 600, $width, $height);
+		imagejpeg($dst, $src);
 	}
 }

@@ -51,7 +51,7 @@ h3, label
 h4
 {
 	font-family: $fontFamily-title;
-	font-size: $main-fontSize;
+	font-size: $fontSize-main;
 	font-weight: bold;
 	color: $color-dark;	
 }
@@ -62,7 +62,7 @@ li
 p, input, textarea, select
 {
 	font-family: $fontFamily-text;
-	font-size: $main-fontSize;
+	font-size: $fontSize-main;
 }
 a
 {

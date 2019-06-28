@@ -46,17 +46,22 @@
 .recetteLink
 {
 	margin-bottom: $space-4;
-	border: 3px solid $color-hot;
+	border: $borderSize-main solid $color-hot;
 	display: flex;
 	flex-direction: column;
+	max-width: calc(400px + (2 * #{$borderSize-main}));
+	width: 100%;
 	h3
 	{
 		margin-bottom: 0;
-		padding: 4px;
+		padding: 4px $space-1;
 		width: 100%;
 		text-align: center;
 		color: $color-light;
 		background-color: $color-dark;
+		white-space:nowrap;
+		overflow: hidden;
+  		text-overflow: ellipsis;
 	}
 	img
 	{
@@ -110,7 +115,7 @@
 				}
 				.filtrerDetail
 				{
-					font-size: $main-fontSize;
+					font-size: $fontSize-main;
 				}
 				label
 				{
@@ -123,7 +128,7 @@
 					background-color: $color-light;
 					font-family: $fontFamily-text;
 					font-weight: bold;
-					font-size: $main-fontSize;
+					font-size: $fontSize-main;
 					&:hover
 					{
 						color: $color-light;
@@ -165,8 +170,10 @@
 			}
 			.trierContainer
 			{
+				margin-right: $space-2;
 				flex: 1;
 				text-align: center;
+				white-space:nowrap;
 				h3, select
 				{
 					display: inline-block;
@@ -212,6 +219,13 @@
 .recettePage
 {
 	padding-bottom: $space-6;
+	.editPage, .createPage
+	{
+		.col-1
+		{
+			border: $borderSize-main solid $color-hot;
+		}
+	}
 	.showPage, .editPage, .createPage
 	{
 		h4
@@ -226,7 +240,6 @@
 		}
 		.col-1
 		{
-			border: 3px solid $color-hot;
 			position: relative;
 			min-width: 400px;
 			width: 400px;
@@ -406,6 +419,10 @@
 		.col-3
 		{
 			flex: 1;
+			height: 308px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 			.recetteAverageScoreContainer
 			{
 				h3
@@ -488,7 +505,7 @@
 			}
 			.rememberContainer label, .forgetPwdBtn
 			{
-				font-size: $main-fontSize;
+				font-size: $fontSize-main;
 			}
 			.forgetPwdBtn
 			{
