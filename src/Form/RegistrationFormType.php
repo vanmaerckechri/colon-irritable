@@ -48,26 +48,29 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username')
+            ->add('username', null, [
+                'label' => 'Pseudo',
+            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Mot de Passe'],
+                'second_options' => ['label' => 'Répéter le Mot de Passe'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Ce champ ne peut pas être vide',
                     ]),
                     new Length([
                         'min' => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit être composé d\'au moins {{ limit }} caractères',
                         'max' => 255,
                     ]),
                 ],
             ])
-            ->add('mail')
+            ->add('mail', null, [
+                'label' => 'Adresse Mail',
+            ])
         ;
     }
 

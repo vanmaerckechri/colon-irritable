@@ -44,6 +44,10 @@ register:
   controller: App\Controller\RegistrationController::register
   methods: GET|POST
 
+account.activation:
+  path: /activation/{code}
+  controller: App\Controller\RegistrationController::activation
+
 login:
   path: /login
   controller: App\Controller\SecurityController::login

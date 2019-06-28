@@ -10,23 +10,23 @@
 			    {{ form_start(registrationForm) }}
 			    	{{ form_label(registrationForm.username) }}
 					{{ form_widget(registrationForm.username) }}
+					<div class="alertSms">{{ form_errors(registrationForm.username) }}</div>
 					{{ form_help(registrationForm.username) }}
-					{{ form_errors(registrationForm.username) }}
 
 					{{ form_label(registrationForm.plainPassword.first) }}
 					{{ form_widget(registrationForm.plainPassword.first) }}
+					<div class="alertSms">{{ form_errors(registrationForm.plainPassword.first) }}</div>
 					{{ form_help(registrationForm.plainPassword.first) }}
-					{{ form_errors(registrationForm.plainPassword.first) }}
 
 					{{ form_label(registrationForm.plainPassword.second) }}
 					{{ form_widget(registrationForm.plainPassword.second) }}
+					<div class="alertSms">{{ form_errors(registrationForm.plainPassword.second) }}</div>
 					{{ form_help(registrationForm.plainPassword.second) }}
-					{{ form_errors(registrationForm.plainPassword.second) }}
 
 			    	{{ form_label(registrationForm.mail) }}
 					{{ form_widget(registrationForm.mail) }}
+					<div class="alertSms">{{ form_errors(registrationForm.mail) }}</div>
 					{{ form_help(registrationForm.mail) }}
-					{{ form_errors(registrationForm.mail) }}
 
 					{{ form_rest(registrationForm) }}
 			        <button class="btn">VALIDER</button>

@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields={"mail", "username"})
  */
 class User implements UserInterface,\Serializable
 {
@@ -23,7 +22,7 @@ class User implements UserInterface,\Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Length(min=5, max=255)
      */
     private $username;
@@ -42,10 +41,25 @@ class User implements UserInterface,\Serializable
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=320)
+     * @ORM\Column(type="string", length=320, unique=true)
      * @Assert\Email
      */
     private $mail;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $code;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Recette", mappedBy="user", orphanRemoval=true)
@@ -64,6 +78,7 @@ class User implements UserInterface,\Serializable
 
     public function __construct()
     {
+        $this->createdAt = new \DateTime('now');
         $this->recettes = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
@@ -118,6 +133,38 @@ class User implements UserInterface,\Serializable
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
+
+        return $this;
+    }
+
+    public function getIsActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): void
+    {
+        $this->isActive = $isActive;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(string $code): void
+    {
+        $this->code = $code;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -186,7 +233,8 @@ class User implements UserInterface,\Serializable
         return serialize([
             $this->id,
             $this->username,
-            $this->password
+            $this->password,
+            $this->isActive
         ]);
     }
 
@@ -198,7 +246,8 @@ class User implements UserInterface,\Serializable
         list (
             $this->id,
             $this->username,
-            $this->password
+            $this->password,
+            $this->isActive
             ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 
