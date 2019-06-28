@@ -42,6 +42,13 @@ class CrudCommentController extends AbstractController
 				], 301);
 		}
 
+		$user = $this->getUser();
+		if ($user === $recette->getUser())
+		{
+			$this->addFlash('error', 'Il est interdit de voter pour ses propres recettes!');
+        	return $this->redirectToRoute('recipe.index');
+		}
+
 		$comment = new Comment;
         $user = $this->getUser();
 		$post = $request->request->get('comment');

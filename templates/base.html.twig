@@ -17,7 +17,7 @@
                     {% if app.user %}
                         <img src="{{ '/images/icons/profil.png' }}" alt="logo du site">
                         <div class="profil">
-                            <p>mon compte</p>
+                            <p>{{ app.user.username }}</p>
                             <div class="hiddenContainer">
                                 <a href="#">configurer</a>
                                 <a href="{{ path('logout') }}">se déconnecter</a>

@@ -48,7 +48,7 @@
 				</div>
 				<div class="col-3">
 					<div>
-						{% if userAlreadyComment == false %}
+						{% if app.user != recette.user and userAlreadyComment == false %}
 							{% if recette.comments is not empty %}
 								{% if recette.comments|length > 1 %}
 									<a href="#newCommentContainer">{{ recette.comments|length }} Commentaires/Notes</a>
@@ -62,7 +62,7 @@
 								{% if recette.comments|length > 1 %}
 									<a href="#communaute">{{ recette.comments|length }} Commentaires/Notes</a>
 								{% else %}
-									<a href="#communaute">1 Commentaire/Note</a>
+									<a href="#communaute">{{ recette.comments|length }} Commentaire/Note</a>
 								{% endif %}
 						{% endif %}
 						<div class="recetteAverageScoreContainer">
@@ -113,7 +113,7 @@
 				{% endif %}
 			</div>
 			<div class="commentaires">
-				{% if userAlreadyComment == false %}
+				{% if app.user != recette.user and userAlreadyComment == false %}
 					<div id="newCommentContainer" class="newCommentContainer">
 						<h3>Donnez votre Avis ?</h3>
 						<ul id="scoreContainer" class="scoreContainer">
@@ -149,8 +149,9 @@
 						<button>ENREGISTRER</button>
 					{{ form_end(form) }}
 				{% endif %}
-				{% if recette.comments is not empty %}
-					<h3>Les Avis de la Communauté</h3>
+				<h3>Les Avis de la Communauté</h3>
+				{% if recette.comments is empty %}
+					<p>Cette recette n'a pas encore reçu d'évaluation!</p>
 				{% endif %}
 				<ul id="communaute" class="communaute">
 					{% for comment in recette.comments %}
