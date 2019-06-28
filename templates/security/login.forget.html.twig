@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Mot de Passe Oublié' %}
+
+{% block body %}
+	<div id="main" class="loginPage">
+		<div class="mainContent maxWidthMain">
+			{% for message in app.flashes('success') %}
+				<p class="infoSms">{{ message }}</p>
+			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<p class="alertSms">{{ message }}</p>
+			{% endfor %}
+			<div class="col-1">
+				<h2>Mot de Passe Oublié</h2>
+			    {{ form_start(forgetPasswordForm) }}
+			    	{{ form_label(forgetPasswordForm.username) }}
+			    	<div class="alertSms">{{ form_errors(forgetPasswordForm.username) }}</div>
+					{{ form_widget(forgetPasswordForm.username) }}
+					{{ form_help(forgetPasswordForm.username) }}
+
+			    	{{ form_rest(forgetPasswordForm) }}
+			        <button class="btn">VALIDER</button>
+			    {{ form_end(forgetPasswordForm) }}
+
+			</div>
+			<div class="col-2">
+			</div>
+		</div>
+	</div>
+{% endblock %}

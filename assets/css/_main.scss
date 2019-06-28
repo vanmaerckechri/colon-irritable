@@ -25,6 +25,7 @@
 	.infoSms, .alertSms
 	{
 		font-weight: bold;
+		font-family: $fontFamily-text;
 	}
 	.infoSms
 	{
@@ -432,7 +433,12 @@
 	.mainContent
 	{
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-between;
+	}
+	.infoSms, .alertSms
+	{
+		width: 100%;
 	}
 	.col-1
 	{
@@ -450,9 +456,13 @@
 			{
 				margin-bottom: $space-3;
 			}
-			.pseudo, .pwd
+			input[type="text"], input[type="password"], input[type="email"]
 			{
 				width: 100%;
+			}
+			.infoSms, .alertSms
+			{
+				margin-bottom: $space-1;
 			}
 		}
 		.optionsContainer

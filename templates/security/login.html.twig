@@ -5,10 +5,10 @@
 {% block body %}
 	<div id="main" class="loginPage">
 		<div class="mainContent maxWidthMain">
+			{% if error %}
+				<p class="alertSms">{{ error.messageKey | trans(error.messagedata, 'security') }}</p>
+			{% endif %}
 			<div class="col-1">
-				{% if error %}
-					<p class="alertSms">{{ error.messageKey | trans(error.messagedata, 'security') }}</p>
-				{% endif %}
 				<h2>Connexion</h2>
 				<form action="{{ path('login') }}" method="post">
 					<label for="username">Pseudo</label>
@@ -21,7 +21,7 @@
 							<input type="checkbox" id="remember_me" name="remember_me">
 							<label for="remember_me">se souvenir de moi</label>
 						</div>
-						<a class="forgetPwdBtn" href="#">mot de passe oublié ?</a>
+						<a class="forgetPwdBtn" href="{{ path('login.forget') }}">mot de passe oublié ?</a>
 					</div>
 					<button type="submit">SE CONNECTER</button>
 				</form>

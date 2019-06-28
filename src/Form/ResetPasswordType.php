@@ -11,14 +11,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Length;
 
-class RegistrationFormType extends AbstractType
+class ResetPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', null, [
-                'label' => 'Pseudo',
-            ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'options' => ['attr' => ['class' => 'password-field']],
@@ -35,9 +32,6 @@ class RegistrationFormType extends AbstractType
                         'max' => 255,
                     ]),
                 ],
-            ])
-            ->add('mail', null, [
-                'label' => 'Adresse Mail',
             ])
         ;
     }

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Modification du Mot de Passe' %}
+
+{% block body %}
+	<div id="main" class="loginPage">
+		<div class="mainContent maxWidthMain">
+			<div class="col-1">
+				<h2>Modification du Mot de Passe</h2>
+			    {{ form_start(resetPasswordForm) }}
+			    	{{ form_label(resetPasswordForm.plainPassword.first) }}
+			    	<div class="alertSms">{{ form_errors(resetPasswordForm.plainPassword.first) }}</div>
+					{{ form_widget(resetPasswordForm.plainPassword.first) }}
+					{{ form_help(resetPasswordForm.plainPassword.first) }}
+					
+					{{ form_label(resetPasswordForm.plainPassword.second) }}
+					<div class="alertSms">{{ form_errors(resetPasswordForm.plainPassword.second) }}</div>
+					{{ form_widget(resetPasswordForm.plainPassword.second) }}
+					{{ form_help(resetPasswordForm.plainPassword.second) }}
+							
+			    	{{ form_rest(resetPasswordForm) }}
+			        <button class="btn">VALIDER</button>
+			    {{ form_end(resetPasswordForm) }}
+
+			</div>
+			<div class="col-2">
+			</div>
+		</div>
+	</div>
+{% endblock %}
