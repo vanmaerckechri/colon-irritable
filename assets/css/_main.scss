@@ -241,11 +241,33 @@
 		}
 		.col-1
 		{
-			position: relative;
-			min-width: 400px;
-			width: 400px;
-			min-height: 300px;
-			height: 300px;
+			.updateImage
+			{
+				position: relative;
+				min-width: 400px;
+				width: 400px;
+				min-height: 300px;
+				height: 300px;
+			}
+			.imageFileLabel
+			{
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				font-family: $fontFamily-text;
+				color: $color-hot;
+				font-size: $fontSize-main;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: rgba(0, 0, 0, 0.8);
+				&:hover
+				{
+					cursor: pointer;
+				}
+			}
 			img
 			{
 				width: 100%;
@@ -257,8 +279,6 @@
 		 		position: absolute;
 		 		top: 0;
 		 		left: 0;
-		 		width: 100%;
-		 		height: 100%;
 		 		opacity: 0;
 		 	}	 	
 		}

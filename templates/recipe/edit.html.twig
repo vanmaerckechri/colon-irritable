@@ -9,12 +9,16 @@
 			{{ form_start(form) }}
 			<div class="row">
 				<div class="col-1">
-					{% if recette.image %}
-						<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
-					{% else %}
-						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
-					{% endif %}
-					{{ form_widget(form.imageFile) }}
+					<div class="alertSms">{{ form_errors(form.imageFile) }}</div>
+					<div class="updateImage">
+						{% if recette.image %}
+							<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
+						{% else %}
+							<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+						{% endif %}
+						{{ form_widget(form.imageFile) }}
+						<label class="imageFileLabel" for="recette_imageFile">Cliquez ici pour modifier l'image.</label>
+					</div>
 				</div>
 				<div class="col-2">
 					<div class="row">
@@ -64,7 +68,7 @@
 						{% for ingredient in form.ingredients %}
 					    	<li>
 						    	{{ form_label(ingredient) }}
-							    {{ form_widget(ingredient, {'attr': {'class': 'AALLLOOO'}}) }}
+							    {{ form_widget(ingredient) }}
 							    {{ form_help(ingredient) }}
 							    {{ form_errors(ingredient) }}
 						    </li>
@@ -88,6 +92,7 @@
 					<button>Modifier</button>
 				</div>
 			</div>
+			<div style="display: none;">{{ form_rest(form) }}</div>
 			{{ form_end(form) }}
 		</div>
 	</div>
