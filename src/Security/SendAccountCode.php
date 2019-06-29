@@ -32,7 +32,7 @@ class SendAccountCode extends AbstractController
 	{
 		$this->mailer = $mailer;
 		$this->renderer = $renderer;
-		$this->domaine = 'http://localhost:8000';
+		$this->domaine = 'http://lecolonirritable.com';
 		$this->hashing_method = 'sha256';
 	}
 
@@ -47,7 +47,7 @@ class SendAccountCode extends AbstractController
 		$link = $this->domaine . $link;
 
 		$message = (new \Swift_Message('Valider l\'Inscription'))
-			->setFrom('noreply@lecolonirritable.be')
+			->setFrom('robot@lecolonirritable.com')
 			->setTo($user->getMail())
 			->setBody($this->renderer->render('emails/registerValidation.html.twig', [
 				'member' => $user,
@@ -69,7 +69,7 @@ class SendAccountCode extends AbstractController
 		$link = $this->domaine . $link;
 
 		$message = (new \Swift_Message('Réinitialiser le Mot de Passe'))
-			->setFrom('noreply@lecolonirritable.be')
+			->setFrom('robot@lecolonirritable.com')
 			->setTo($user->getMail())
 			->setBody($this->renderer->render('emails/passwordReset.html.twig', [
 				'member' => $user,
