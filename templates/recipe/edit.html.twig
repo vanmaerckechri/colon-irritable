@@ -24,30 +24,30 @@
 					<div class="row">
 						<div class="titre">
 						    {{ form_label(form.titre) }}
+						    <div class="alertSms">{{ form_errors(form.titre) }}</div>
 						    {{ form_widget(form.titre) }}
 						    {{ form_help(form.titre) }}
-						    {{ form_errors(form.titre) }}
 						</div>
 					</div>
 					<div class="row">
 						<div class="nbrPers">
 						    {{ form_label(form.nbrPers) }}
+						    <div class="alertSms">{{ form_errors(form.nbrPers) }}</div>
 						    {{ form_widget(form.nbrPers) }}
 						    {{ form_help(form.nbrPers) }}
-						    {{ form_errors(form.nbrPers) }}
 						</div>
 						<div class="tempsContainer">
 							<div class="tempsPrepa">
 							    {{ form_label(form.tempsPrepa) }}
+								<div class="alertSms">{{ form_errors(form.tempsPrepa) }}</div>
 							    {{ form_widget(form.tempsPrepa) }}
 							    {{ form_help(form.tempsPrepa) }}
-							    {{ form_errors(form.tempsPrepa) }}
 							</div>
 							<div class="tempsCuisson">
 							    {{ form_label(form.tempsCuisson) }}
+								<div class="alertSms">{{ form_errors(form.tempsCuisson) }}</div>
 							    {{ form_widget(form.tempsCuisson) }}
 							    {{ form_help(form.tempsCuisson) }}
-							    {{ form_errors(form.tempsCuisson) }}
 							</div>
 						</div>
 					</div>
@@ -55,9 +55,9 @@
 				<div class="col-3">
 					<div class="type">
 					    {{ form_label(form.type) }}
+					   	<div class="alertSms">{{ form_errors(form.type) }}</div>
 					    {{ form_widget(form.type) }}
 					    {{ form_help(form.type) }}
-					    {{ form_errors(form.type) }}
 					</div>
 				</div>
 			</div>
@@ -68,9 +68,9 @@
 						{% for ingredient in form.ingredients %}
 					    	<li>
 						    	{{ form_label(ingredient) }}
+						    	<div class="alertSms">{{ form_errors(ingredient) }}</div>
 							    {{ form_widget(ingredient) }}
 							    {{ form_help(ingredient) }}
-							    {{ form_errors(ingredient) }}
 						    </li>
 					    {% endfor %}
 					</ul>
@@ -81,9 +81,9 @@
 						{% for etape in form.etapes %}
 							<li>
 						    	{{ form_label(etape) }}
+						    	<div class="alertSms">{{ form_errors(etape) }}</div>
 							    {{ form_widget(etape) }}
 							    {{ form_help(etape) }}
-							    {{ form_errors(etape) }}
 						    </li>
 					    {% endfor %}
 					</ul>

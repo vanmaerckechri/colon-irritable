@@ -222,9 +222,9 @@
 	padding-bottom: $space-6;
 	.editPage, .createPage
 	{
-		.col-1
+		.infoSms, .alertSms
 		{
-			border: $borderSize-main solid $color-hot;
+			margin-bottom: $space-1;
 		}
 	}
 	.showPage, .editPage, .createPage
@@ -243,6 +243,7 @@
 		{
 			.updateImage
 			{
+				border: $borderSize-main solid $color-hot;
 				position: relative;
 				min-width: 400px;
 				width: 400px;
@@ -430,6 +431,14 @@
 				}
 			}
 		}
+		.col-1
+		{
+			img
+			{
+				width: 400px;
+				height: 300px;
+			}
+		}
 		.col-2
 		{
 			.row
@@ -451,6 +460,12 @@
 					display: inline-block;
 				}
 			}
+		}
+		.col-4, .col-5
+		{
+			white-space: nowrap;
+			overflow: hidden;
+	  		text-overflow: ellipsis; 
 		}
 		.recetteAverageScore
 		{

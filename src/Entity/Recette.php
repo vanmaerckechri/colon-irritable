@@ -45,7 +45,7 @@ class Recette
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\Range(min=1)
+     * @Assert\Range(min=1, max=1000)
      */
     private $nbrPers;
 
@@ -64,8 +64,8 @@ class Recette
     private $tempsCuisson;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=5, max=255)
+     * @ORM\Column(type="string", length=75)
+     * @Assert\Length(min=5, max=75)
      */
     private $titre;
 
