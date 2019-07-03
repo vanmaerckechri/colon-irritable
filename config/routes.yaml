@@ -56,6 +56,14 @@ connect.google.check:
   path: /connect/google/check
   controller: App\Controller\GoogleController::connectCheckAction
 
+login.facebook:
+  path: /login/facebook
+  controller: App\Controller\FacebookController::connectAction
+
+connect.facebook.check:
+  path: /connect/facebook/check
+  controller: App\Controller\FacebookController::connectCheckAction
+
 logout:
   path: /logout
 

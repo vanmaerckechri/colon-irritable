@@ -1,50 +1,75 @@
 <?php
-
 namespace App\Security;
 
 use App\Entity\User;
-use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
-use League\OAuth2\Client\Provider\GoogleUser;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use KnpU\OAuth2ClientBundle\Client\Provider\FacebookClient;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Security\OauthTools;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mert
- * Date: 12/18/17
- * Time: 12:00 PM
- */
-class GoogleAuthenticator extends SocialAuthenticator
+class MyFacebookAuthenticator extends SocialAuthenticator
 {
     private $clientRegistry;
-    private $router;
     private $oauthTools;
 
-    public function __construct(ClientRegistry $clientRegistry, RouterInterface $router, OauthTools $oauthTools)
+    public function __construct(ClientRegistry $clientRegistry, OauthTools $oauthTools)
     {
         $this->clientRegistry = $clientRegistry;
-        $this->router = $router;
         $this->oauthTools = $oauthTools;
     }
 
     public function supports(Request $request)
     {
-        return $request->getPathInfo() == '/connect/google/check' && $request->isMethod('GET');
+        // continue ONLY if the current ROUTE matches the check ROUTE
+        return $request->attributes->get('_route') === 'connect_facebook_check';
     }
 
     public function getCredentials(Request $request)
     {
-        return $this->fetchAccessToken($this->getGoogleClient());
+        // this method is only called if supports() returns true
+
+        // For Symfony lower than 3.4 the supports method need to be called manually here:
+        // if (!$this->supports($request)) {
+        //     return null;
+        // }
+
+        return $this->fetchAccessToken($this->getFacebookClient());
     }
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
 
-        $socialUser = $this->getGoogleClient()
+/*
+        $facebookUser = $this->getFacebookClient()
+            ->fetchUserFromToken($credentials);
+
+        $email = $facebookUser->getEmail();
+
+        // 1) have they logged in with Facebook before? Easy!
+        
+        $existingUser = $this->em->getRepository(User::class)
+            ->findOneBy(['facebookId' => $facebookUser->getId()]);
+        if ($existingUser) {
+            return $existingUser;
+        }
+
+        // 2) do we have a matching user by email?
+        $user = $this->em->getRepository(User::class)
+                    ->findOneBy(['mail' => $email]);
+
+        // 3) Maybe you just want to "register" them by creating
+        // a User object
+        $user->setFacebookId($facebookUser->getId());
+        $this->em->persist($user);
+        $this->em->flush();
+*/
+        $socialUser = $this->getFacebookClient()
             ->fetchUserFromToken($credentials);
 
         $user = $this->oauthTools->isUserHaveAccount($socialUser);
@@ -58,13 +83,15 @@ class GoogleAuthenticator extends SocialAuthenticator
     }
 
     /**
-     * @return \KnpU\OAuth2ClientBundle\Client\OAuth2Client
+     * @return FacebookClient
      */
-    private function getGoogleClient()
+    private function getFacebookClient()
     {
         return $this->clientRegistry
-            ->getClient('google');
-    }
+            // "facebook_main" is the key used in config/packages/knpu_oauth2_client.yaml
+            ->getClient('facebook_main');
+	}
+
 
     /**
      * Returns a response that directs the user to authenticate.
