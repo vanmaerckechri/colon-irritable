@@ -16,7 +16,7 @@
 			<h2>Les Recettes</h2>
 			<form class="filtrerTrierForm" name="trier" method="post" action="{{ path('recipe.index') }}">
 				<div class="filtrerContainer">
-					<h3>Afficher<span id="filtrerDetail" class="filtrerDetail"></span></h3>
+					<h3>Afficher</h3>
 					<div class="hiddenContainer">
 						{% if app.user %}
 							<label><!--
@@ -45,6 +45,7 @@
 		  					-->les desserts<!--
 	  					--></label>
 	  				</div>
+	  				<span id="filtrerDetail" class="filtrerDetail"></span>
   				</div>
   				<div class="trierContainer">
   					<h3>Trier par</h3>
@@ -64,7 +65,7 @@
 					{% if recette.image %}
 						<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
 					{% else %}
-						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+						<img src="{{ asset('images/recettes/empty.png') | imagine_filter('thumb') }}" alt="photo du plat">
 					{% endif %}
 					<div class="recetteAverageScore">
 						{% for i in 1..5 %}

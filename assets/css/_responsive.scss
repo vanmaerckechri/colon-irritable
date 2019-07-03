@@ -1,0 +1,329 @@
+@media screen and (max-width: 1169px)
+{
+	#main
+	{
+		.editPage, .createPage
+		{
+			.col-2
+			{
+				& > .row:last-of-type
+				{
+					flex-wrap: wrap;
+				}
+				.tempsContainer
+				{
+					margin-left: 0;
+					display: flex;
+					align-items: center;
+					text-align: left;
+				}
+				.nbrPers
+				{
+					margin-bottom: $space-2;
+				}
+				.tempsCuisson
+				{
+					margin-top: 0;
+					margin-left: $space-3;
+					text-align: left;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1169px)
+{
+	#main
+	{
+		.editPage, .createPage
+		{
+			.col-3
+			{
+				margin-top: 109px;
+				margin-left: -161px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 1015px)
+{
+	#main.indexPage
+	{
+		.recettesListContainer
+		{
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+	#main
+	{
+		.editPage, .createPage
+		{
+			form
+			{
+				& > .row
+				{
+					flex-direction: column;
+					align-items: center;
+				}
+			}
+			.col-1
+			{
+				margin-bottom: $space-2;
+				align-self: flex-start;
+			}
+			.col-2
+			{
+				margin-left: 0;
+				width: 100%;
+				.tempsContainer
+				{
+					margin-left: auto;
+				}
+			}
+			.col-3
+			{
+				margin-top: 0;
+				margin-left: 0;
+				align-self: flex-start;
+				text-align: left;
+			}
+			.type
+			{
+				label
+				{
+					text-align: left;
+				}
+			}
+			.col-4
+			{
+				min-width: auto;
+			}
+			.col-4, .col-5
+			{
+				margin-left: 0;
+				width: 100%;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 880px)
+{
+	#main
+	{
+		.showPage
+		{
+			& > .row:nth-of-type(3)
+			{
+				flex-direction: column;
+			}
+			.col-3
+			{
+				margin-left: 0;
+				height: auto;
+				.auteurContainer
+				{
+					h3, p
+					{
+						display: inline-block;
+					}
+				}
+			}
+			.col-4
+			{
+				width: auto;
+				min-width: auto;
+			}
+			.col-5
+			{
+				margin-left: 0;
+			}
+			.col-4, .col-5
+			{
+				max-width: 100%;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 806px)
+{
+	#main
+	{
+		.editPage, .createPage
+		{
+			.col-2
+			{
+				.tempsContainer
+				{
+					margin-left: 0;
+					width: 100%;
+					display: flex;
+					flex-wrap: wrap;
+				}
+				.tempsPrepa
+				{
+					margin-right: $space-3;
+				}
+				.tempsCuisson
+				{
+					margin-left: 0;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 800px)
+{
+	header
+	{
+		h1
+		{
+			font-size: 36px;
+		}
+	}
+	nav
+	{
+		ul
+		{
+			text-align: center;
+		}
+	}
+	.maxWidthHeader
+	{
+		//padding: 0 $space-1;
+	}
+	.headerContent
+	{
+		.profilContainer
+		{
+			.profil
+			{
+				margin-left: 4px;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 700px)
+{
+	.maxWidthHeader, .maxWidthMain
+	{
+		padding: 0 $space-3;
+	}
+	.headerContent
+	{
+		flex-direction: column;
+		align-items: center;
+		.bannerContainer
+		{
+			margin-bottom: $space-1;
+		}
+		.profilContainer
+		{
+			margin-left: auto;
+			.profil
+			{
+				margin-left: 4px;
+			}
+		}
+	}
+	.btn
+	{
+		padding: $space-0;
+		font-size: $fontSize-main;
+		min-height: auto;
+	}
+	.recettePage
+	{
+		.editPage, .createPage
+		{
+			.userBtnContainer
+			{
+				right: $space-3;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 679px)
+{
+	#main
+	{
+		.showPage
+		{
+			.col-1
+			{
+				margin: 0 auto;
+			}
+			.col-2
+			{
+				margin-left: 0;
+				flex: unset;
+				height: auto;
+				width: 100%;
+			}
+			.col-2, .col-3, .col-4, .col-5, .commentaires > h3, .commentaires > p
+			{
+				text-align: center;
+			}
+			.commentsForm > button 
+			{
+				margin: 0 auto;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 609px)
+{
+	#main.loginPage
+	{
+		.col-1
+		{
+			margin-bottom: $space-1;
+			width: 100%;
+			flex: unset;
+		}
+	}
+}
+
+@media screen and (max-width: 559px)
+{
+	nav
+	{
+		.maxWidthHeader
+		{
+			text-align: right;
+			li:first-child
+			{
+				margin-bottom: $space-0;
+			}
+			li:last-child
+			{
+				border-top: 1px solid $color-hot;
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 496px)
+{
+	#main
+	{
+		.editPage, .createPage
+		{
+			.col-2
+			{
+				.tempsPrepa
+				{
+					margin-bottom: $space-1;
+				}
+			}
+		}
+	}
+}

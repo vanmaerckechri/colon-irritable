@@ -8,8 +8,8 @@
 			{% if error %}
 				<p class="alertSms">{{ error.messageKey | trans(error.messagedata, 'security') }}</p>
 			{% endif %}
+			<h2>Connexion</h2>
 			<div class="col-1">
-				<h2>Connexion</h2>
 				<form action="{{ path('login') }}" method="post">
 					<label for="username">Pseudo</label>
 					<input type="text" id="username" class="inputField pseudo" name="_username" value="{{ last_username }}">
@@ -30,6 +30,16 @@
 				</div>
 			</div>
 			<div class="col-2">
+				<a class="googleLogin" href="{{ path('login.google') }}">
+					<h3>SE CONNECTER AVEC GOOGLE</h3>
+					<img src="{{ asset('images/icons/googleplus.png') }}">
+				</a>
+				<!--
+				<a class="facebookLogin" href="{{ path('login.google') }}">
+					<h3>SE CONNECTER AVEC FACEBOOK</h3>
+					<img src="{{ asset('images/icons/facebook.png') }}">
+				</a>
+				-->
 			</div>
 		</div>
 	</div>

@@ -48,6 +48,14 @@ login:
   path: /login
   controller: App\Controller\SecurityController::login
 
+login.google:
+  path: /login/google
+  controller: App\Controller\GoogleController::connectAction
+
+connect.google.check:
+  path: /connect/google/check
+  controller: App\Controller\GoogleController::connectCheckAction
+
 logout:
   path: /logout
 

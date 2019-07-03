@@ -5,6 +5,7 @@ namespace App\Security;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Twig\Environment;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class SendAccountCode extends AbstractController
 {
@@ -28,11 +29,11 @@ class SendAccountCode extends AbstractController
 	 */
 	private $hashing_method;
 
-	public function __construct(\Swift_Mailer $mailer, Environment $renderer)
+	public function __construct(\Swift_Mailer $mailer, Environment $renderer, RequestStack $requestStack)
 	{
 		$this->mailer = $mailer;
 		$this->renderer = $renderer;
-		$this->domaine = 'http://lecolonirritable.com';
+		$this->domaine = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
 		$this->hashing_method = 'sha256';
 	}
 

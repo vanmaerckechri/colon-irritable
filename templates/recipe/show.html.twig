@@ -10,13 +10,13 @@
 				<div class="tools">
 					<a href="{{ path('recipe.favoris', {id: recette.id}) }}">
 						{% if isFav %}
-							<img src="{{ '/images/icons/isfav.png' }}" alt="retirer des favoris">
+							<img src="{{ asset('images/icons/isfav.png') }}" alt="retirer des favoris">
 						{% else %}
-							<img src="{{ '/images/icons/isnotfav.png' }}" alt="ajouter aux favoris">
+							<img src="{{ asset('images/icons/isnotfav.png') }}" alt="ajouter aux favoris">
 						{% endif %}
 					</a>
 					<a href="#">
-						<img src="{{ '/images/icons/print.png' }}" alt="imprimer">
+						<img src="{{ asset('images/icons/print.png') }}" alt="imprimer">
 					</a>
 				</div>
 			</div>
@@ -25,7 +25,7 @@
 					{% if recette.image %}
 						<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
 					{% else %}
-						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+						<img src="{{ asset('images/recettes/empty.png') | imagine_filter('thumb') }}" alt="photo du plat">
 					{% endif %}
 				</div>
 				<div class="col-2">

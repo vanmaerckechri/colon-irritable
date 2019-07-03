@@ -10,12 +10,12 @@
         <header>
             <div class="headerContent maxWidthHeader">
                 <a class="bannerContainer" href="{{ path('recipe.index') }}">
-                    <img src="{{ '/images/icons/colonirritable.png' }}" alt="logo du site">
+                    <img src="{{ asset('images/icons/colonirritable.png') }}" alt="logo du site">
                     <h1>Le Colon Irritable</h1>
                 </a>
                 <div class="profilContainer">
                     {% if app.user %}
-                        <img src="{{ '/images/icons/profil.png' }}" alt="logo du site">
+                        <img src="{{ asset('images/icons/profil.png') }}" alt="émoticône représentant une tête souriante">
                         <div class="profil">
                             <p>{{ app.user.username }}</p>
                             <div class="hiddenContainer">
@@ -25,7 +25,7 @@
                         </div>
                     {% else %}
                         <a class="profil" href="{{ path('login') }}">
-                            <img src="{{ '/images/icons/profil.png' }}" alt="logo du site">
+                            <img src="{{ asset('images/icons/profil.png') }}" alt="logo du site">
                             <p>mon compte</p>
                         </a>
                     {% endif %}

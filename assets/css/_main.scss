@@ -65,7 +65,7 @@
 	}
 	img
 	{
-		width: 400px;
+		width: 100%;
 		height: 300px;
 		object-fit: cover;
 	}
@@ -84,38 +84,54 @@
 		}
 	}
 }
+#main.indexPage
+{
+	h2
+	{
+		margin-bottom: 0;
+	}
+}
 .indexPage
 {
 	.rowTitre
 	{
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
+		margin-bottom: $space-3;
 		h2
 		{
-			flex: 1;
+			white-space:nowrap;
 		}
 		.filtrerTrierForm
 		{
-			flex: 2;
 			display: flex;
-			justify-content: space-between;
+			justify-content: flex-start;
 			align-items: baseline;
+			flex-wrap: wrap;
 			.filtrerContainer
 			{
-				flex: 2;
+				margin: $space-2 $space-2 $space-2 0;
 				position: relative;
+				display: flex;
+				align-items: baseline;
 				h3
 				{
+					margin-bottom: 0;
+					display: inherit;
 					color: $color-hot;
 					&:hover
 					{
 						cursor: pointer;
+						& ~ .hiddenContainer
+						{
+							display: block;
+						}
 					}
 				}
 				.filtrerDetail
 				{
+					margin-left: $space-0;
+					font-family: $fontFamily-text;
 					font-size: $fontSize-main;
+					color: $color-dark;
 				}
 				label
 				{
@@ -157,27 +173,23 @@
 				{
 					border-left: 2px solid $color-hot;
 					position: absolute;
+					top: 25px;
 					display: none;
 					background-color: $color-light;
 					z-index: 1;
-				}
-				&:hover
-				{
-					.hiddenContainer
+					&:hover
 					{
 						display: block;
-					}					
+					}
 				}
 			}
 			.trierContainer
 			{
-				margin-right: $space-2;
-				flex: 1;
-				text-align: center;
+				margin-right: $space-4;
 				white-space:nowrap;
 				h3, select
 				{
-					display: inline-block;
+					display: initial;
 				}
 				select
 				{
@@ -229,6 +241,11 @@
 	}
 	.showPage, .editPage, .createPage
 	{
+		h2
+		{
+			overflow: hidden;
+	  		text-overflow: ellipsis; 
+		}
 		h4
 		{
 			margin-bottom: $space-0;
@@ -245,10 +262,11 @@
 			{
 				border: $borderSize-main solid $color-hot;
 				position: relative;
-				min-width: 400px;
-				width: 400px;
-				min-height: 300px;
-				height: 300px;
+				max-width: 400px;
+				width: 100%;
+				max-height: 300px;
+				height: 100%;
+				text-align: center;
 			}
 			.imageFileLabel
 			{
@@ -306,6 +324,7 @@
 				text-align: right;
 				.tempsPrepa, .tempsCuisson
 				{
+					white-space: nowrap;
 					// space between hours and minutes
 					& select:nth-child(1)
 					{
@@ -386,7 +405,7 @@
 		}
 		.col-5
 		{
-			margin: 0 194px 0 $space-4;
+			margin: 0 0 0 $space-4;
 			flex: 1;
 			textarea
 			{
@@ -413,6 +432,10 @@
 {
 	.showPage
 	{
+		& > .row:nth-of-type(2)
+		{
+			flex-wrap: wrap;
+		}
 		p
 		{
 			margin-bottom: $space-2;
@@ -421,6 +444,7 @@
 		{
 			margin-left: auto;
 			display: inline-block;
+			white-space: nowrap;
 			img
 			{
 				width: 43px;
@@ -460,12 +484,19 @@
 					display: inline-block;
 				}
 			}
+			a
+			{
+				white-space: nowrap;
+			}
 		}
 		.col-4, .col-5
 		{
-			white-space: nowrap;
 			overflow: hidden;
-	  		text-overflow: ellipsis; 
+			p
+			{
+				overflow: hidden;
+	  			text-overflow: ellipsis; 
+			}
 		}
 		.recetteAverageScore
 		{
@@ -483,6 +514,10 @@
 // Login
 .loginPage
 {
+	h2
+	{
+		width: 100%;
+	}
 	.mainContent
 	{
 		display: flex;
@@ -556,5 +591,35 @@
 	.col-2
 	{
 		flex: 1;
+	}
+}
+
+.googleLogin, .facebookLogin
+{
+	display: block;
+	h3
+	{
+		display: inline-block;
+	}
+	img
+	{
+		display: block;
+		width: 52px;
+		height: 52px;
+	}
+}
+.googleLogin
+{
+	h3
+	{
+		color: $googleColor;
+	}
+}
+.facebookLogin
+{
+	margin-top: $space-3;
+	h3
+	{
+		color: $facebookColor;
 	}
 }

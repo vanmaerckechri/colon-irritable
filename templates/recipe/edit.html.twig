@@ -14,7 +14,7 @@
 						{% if recette.image %}
 							<img src="{{ vich_uploader_asset(recette, 'imageFile') | imagine_filter('thumb') }}" alt="photo du plat">
 						{% else %}
-							<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+							<img src="{{ asset('images/recettes/empty.png') | imagine_filter('thumb') }}" alt="photo du plat">
 						{% endif %}
 						{{ form_widget(form.imageFile) }}
 						<label class="imageFileLabel" for="recette_imageFile">Cliquez ici pour modifier l'image.</label>
@@ -67,8 +67,6 @@
 					<ul class="ingredients" data-prototype="{{ form_widget(form.ingredients.vars.prototype)|e('html_attr') }}">
 						{% for ingredient in form.ingredients %}
 					    	<li>
-						    	{{ form_label(ingredient) }}
-						    	<div class="alertSms">{{ form_errors(ingredient) }}</div>
 							    {{ form_widget(ingredient) }}
 							    {{ form_help(ingredient) }}
 						    </li>
@@ -80,8 +78,6 @@
 					<ul class="etapes" data-prototype="{{ form_widget(form.etapes.vars.prototype)|e('html_attr') }}">
 						{% for etape in form.etapes %}
 							<li>
-						    	{{ form_label(etape) }}
-						    	<div class="alertSms">{{ form_errors(etape) }}</div>
 							    {{ form_widget(etape) }}
 							    {{ form_help(etape) }}
 						    </li>

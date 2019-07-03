@@ -11,7 +11,7 @@
 				<div class="col-1">
 					<div class="alertSms">{{ form_errors(form.imageFile) }}</div>
 					<div class="updateImage">
-						<img src="{{ '/images/recettes/empty.png' | imagine_filter('thumb') }}" alt="photo du plat">
+						<img src="{{ asset('images/recettes/empty.png') | imagine_filter('thumb') }}" alt="photo du plat">
 						{{ form_widget(form.imageFile) }}
 						<label class="imageFileLabel" for="recette_imageFile">Cliquez ici pour ajouter une image.</label>
 					</div>
