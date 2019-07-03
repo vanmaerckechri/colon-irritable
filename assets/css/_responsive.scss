@@ -209,6 +209,36 @@
 	}
 }
 
+@media screen and (max-width: 722px)
+{
+	.loginPage
+	{
+		.col-1
+		{
+			form
+			{
+				max-width: unset;
+			}
+		}
+		.socialContainer
+		{
+			margin-top: $space-3;
+			flex: unset;
+			width: 100%;
+		}
+		.googleLogin, .facebookLogin
+		{
+			margin-left: 0;
+			width: 100%;
+			text-align: center;
+			img
+			{
+				margin: 0 auto;
+			}
+		}
+	}
+}
+
 @media screen and (max-width: 700px)
 {
 	.maxWidthHeader, .maxWidthMain
@@ -287,12 +317,16 @@
 		}
 		.userBtnContainer
 		{
-			padding: 0 $space-1;
+			padding: 0 $space-3;
 			display: flex;
 			justify-content: space-between;
 			width: 100%;
 			bottom: $space-0;
 			right: 0;
+			.create, .update
+			{
+				margin-left: auto;
+			}
 		}
 	}
 }

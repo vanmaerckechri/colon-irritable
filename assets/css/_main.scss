@@ -548,6 +548,7 @@
 			}
 			input[type="text"], input[type="password"], input[type="email"]
 			{
+				min-width: 300px;
 				width: 100%;
 			}
 			.infoSms, .alertSms
@@ -598,10 +599,12 @@
 
 .googleLogin, .facebookLogin
 {
+	margin-left: $space-3;
 	display: block;
 	h3
 	{
 		display: inline-block;
+		white-space:nowrap;
 	}
 	img
 	{
