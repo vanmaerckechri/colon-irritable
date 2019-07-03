@@ -19,12 +19,9 @@ class FacebookController extends Controller
         // on Symfony 3.3 or lower, $clientRegistry = $this->get('knpu.oauth2.registry');
 
         // will redirect to Facebook!
-        dump($clientRegistry);
         return $clientRegistry
             ->getClient('facebook_main') // key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect([
-	    	'public_profile', 'email' // the scopes you want to access
-            ])
+            ->redirect()
         ;
 	}
 
