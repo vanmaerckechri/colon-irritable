@@ -256,9 +256,16 @@
 	{
 		.showPage
 		{
+			.col-3
+			{
+				order: 0;
+			}
 			.col-1
 			{
 				margin: 0 auto;
+				width: 100%;
+				text-align: center;
+				order: 1;
 			}
 			.col-2
 			{
@@ -266,15 +273,26 @@
 				flex: unset;
 				height: auto;
 				width: 100%;
+				order: 2;
 			}
 			.col-2, .col-3, .col-4, .col-5, .commentaires > h3, .commentaires > p
 			{
 				text-align: center;
+				width: 100%;
 			}
 			.commentsForm > button 
 			{
 				margin: 0 auto;
 			}
+		}
+		.userBtnContainer
+		{
+			padding: 0 $space-1;
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			bottom: $space-0;
+			right: 0;
 		}
 	}
 }
@@ -322,6 +340,60 @@
 				.tempsPrepa
 				{
 					margin-bottom: $space-1;
+				}
+			}
+		}
+	}
+}
+
+@media screen and (max-width: 415px)
+{
+	header
+	{
+		h1
+		{
+			margin-left: $space-2;
+			font-size: 32px;
+		}
+	}
+	nav
+	{
+		.maxWidthHeader
+		{
+			text-align: center;
+			li
+			{
+				width: 100%;
+			}
+			li:first-child
+			{
+				margin-bottom: 0;				
+			}
+			li:last-child
+			{
+				margin-top: 3px;
+				margin-left: 0;
+			}
+		}
+	}
+	.maxWidthHeader, .maxWidthMain
+	{
+		padding: 0 $space-1;
+	}
+	#main.indexPage
+	{
+		.rowTitre
+		{
+			h2
+			{
+				text-align: center;
+			}
+			.filtrerTrierForm
+			{
+				justify-content: center;
+				.trierContainer
+				{
+					margin-right: $space-2;
 				}
 			}
 		}
