@@ -25,53 +25,61 @@ class RecetteRepository extends ServiceEntityRepository
     public function findAllWithOptions(?array $afficher, ?string $choiceTri, ?User $user)
     {
         $build = $this->createQueryBuilder('r');
-        $where = 'Where';
 
         if ($user)
         {
-            $favoris = $user->getFavoris();
-            if ($afficher['vosRea'] != 'on' || $afficher['vosFav'] != 'on' || $afficher['autres'] != 'on')
+            if (($afficher['vosRea'] != 'on' && $afficher['vosFav'] != 'on' && $afficher['autres'] != 'on') || ($afficher['vosRea'] == 'on' && $afficher['vosFav'] == 'on' && $afficher['autres'] == 'on'))
             {
+                $build->where('r.id != :id')
+                    ->setParameter('id', -1);
+            }
+            else
+            {
+                $favoris = $user->getFavoris();
+
                 if ($afficher['autres'] == 'on')
                 {
-                    if ($afficher['vosRea'] != 'on')
-                    {
-                        $build->$where('r.user != :user')
-                            ->setParameter('user', $user);
-                        $where = 'andWhere';
-                    }
-                    if ($afficher['vosFav'] != 'on')
-                    {
-                        $index = 0;
-                        foreach ($favoris as $fav) 
-                        {
-                            $build->$where('r.id != :id' . $index)  
-                                ->setParameter('id' . $index, $fav);
-                            $where = 'andWhere';
-                            $index += 1;
-                        }
-                    }
-                    $where = 'orWhere';
+                    $build->where('r.id != :id')
+                        ->setParameter('id', -1);
                 }
+                else
+                {
+                     $build->where('r.id = :id')
+                        ->setParameter('id', -1);               
+                }
+
                 if ($afficher['vosRea'] == 'on')
                 {
-                    $build->$where('r.user = :user')
+                    $build->orWhere('r.user = :user')
                         ->setParameter('user', $user);
-                    $where = 'orWhere';
                 }
+                else
+                {
+                    $build->andWhere('r.user != :user')
+                        ->setParameter('user', $user);
+                }
+
                 if ($afficher['vosFav'] == 'on')
                 {
                     $index = 0;
                     foreach ($favoris as $fav) 
                     {
-                        $build->$where('r.id = :id' . $index)  
+                        $build->orWhere('r.id = :id' . $index)  
                             ->setParameter('id' . $index, $fav);
-                        $where = 'orWhere';
+                        $index += 1;
+                    }
+                }
+                else
+                {
+                    $index = 0;
+                    foreach ($favoris as $fav) 
+                    {
+                        $build->andWhere('r.id != :id' . $index)  
+                            ->setParameter('id' . $index, $fav);
                         $index += 1;
                     }
                 }
             }
-            $where = 'andWhere';
         }
 
         if ($afficher['entrees'] === 'on' || $afficher['platsPrincipaux'] === 'on' || $afficher['desserts'] === 'on')
@@ -101,7 +109,7 @@ class RecetteRepository extends ServiceEntityRepository
                 $whereContent .= 'r.type = ' . $type;
                 $index += 1;
             }
-            $build->$where($whereContent);
+            $build->andWhere($whereContent);
         }
 
         $order = 'r.createdAt';
