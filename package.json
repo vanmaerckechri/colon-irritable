@@ -14,5 +14,7 @@
         "watch": "encore dev --watch",
         "build": "encore production --progress"
     },
-    "dependencies": {}
+    "dependencies": {
+        "lodash": "^4.17.15"
+    }
 }
